@@ -1,5 +1,7 @@
 # MVC 実装 + Vision
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - DB レイヤー実装](../5_ImplementDBLayer/README_JA.md) | [次へ - Token 節約とコンテキスト管理](../7_TokenManagement/README_JA.md)
 
 このステップでは、コントローラーとビューを実装します。さらに、Copilot の **Vision 機能**（画像認識）を使って、ワイヤーフレーム画像から UI を生成する体験をします。

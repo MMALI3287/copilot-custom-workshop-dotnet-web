@@ -1,5 +1,7 @@
 # カスタム GitHub Copilot ワークショップ（ASP.NET Core & SQLite スタック）
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 **GitHub エキスパートサービスチーム**がご用意したカスタム Copilot ワークショップへようこそ！
 
 このワークショップでは、GitHub Copilot の **Agent モード**・**Custom Instructions**・**Custom Agent** を中心に、ASP.NET Core MVC + SQLite の Web アプリケーション「MeowWorld」を構築しながら、Copilot の最新機能を実践的に学びます。
@@ -21,4 +23,13 @@
 | 9 | [Custom Agent & Skill](docs/9_CustomAgent/README_JA.md) | `.agent.md` + `SKILL.md` で専門エージェント構築 |
 | 10 | [まとめとふりかえり](docs/10_LessonsLearned/README_JA.md) | ベストプラクティス・次のステップ |
 
-**付録:** [トラブルシューティングガイド](docs/TroubleshootingGuide/README_JA.md)
+**付録:**
+
+| 付録 | 内容 |
+|------|------|
+| [トラブルシューティングガイド](docs/TroubleshootingGuide/README_JA.md) | Copilot・環境まわりのよくある問題と対処 |
+| [画像の詳細分析](docs/ImageAnalysis/README.md) | 教材で使用する全画像のテキスト仕様書（英語） |
+| [日英切り替え（JA/EN トグル）](docs/Localization/README.md) | MeowWorld に言語切り替えを追加する手順（英語） |
+| [文字列カタログ](docs/Localization/string-catalog.md) | UI 文字列のリソースキーと日英対訳表 |
+
+> **Note:** 本ワークショップの英語版は [README_EN.md](README_EN.md) にあります。各ステップの英訳は同じフォルダーの `README_EN.md` です。

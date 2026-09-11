@@ -1,5 +1,7 @@
 # プロジェクト作成（Agent モード）
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - はじめる前に](../2_BeforeGettingStarted/README_JA.md) | [次へ - Custom Instructions](../4_CustomInstructions/README_JA.md)
 
 このステップでは、GitHub Copilot の Agent モードを使って ASP.NET Core MVC プロジェクトの作成から SQLite パッケージの導入、ビルド確認までを一気に行います。

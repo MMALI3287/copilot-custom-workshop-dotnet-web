@@ -1,5 +1,7 @@
 # Custom Instructions でプロジェクトルールを定義する
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - プロジェクト作成](../3_CreateProject/README_JA.md) | [次へ - DB レイヤー実装](../5_ImplementDBLayer/README_JA.md)
 
 このステップでは、GitHub Copilot の **Custom Instructions**（カスタム指示）機能を 3 段階で学びます。毎回のプロンプトに書かなくても、Copilot が自動的にプロジェクトのルールに従うようになります。
