@@ -99,6 +99,11 @@
         // 取得に失敗したらサーバー側の経路にフォールバックする
         console.warn('即時切り替えに失敗したため、ページ遷移で切り替えます。', err);
         form.removeEventListener('submit', onSubmit, true);
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'culture';
+        input.value = culture;
+        form.appendChild(input);
         form.submit();
       })
       .finally(function () { inflight = null; });
