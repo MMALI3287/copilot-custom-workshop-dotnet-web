@@ -8,6 +8,13 @@ Whether Copilot returns accurate output depends heavily on **what context you pa
 
 > **A step for reflection:** in Steps 5 and 6 you implemented everything at speed in Agent mode. In this step you take a step back and experience "how to write better prompts" through experiments.
 
+> **Time:** about 30 minutes
+> **You will end with:** no code changes at all, and a measured sense of what context actually buys you
+> **New Copilot skills:** `#file`, `#codebase`, `#terminalLastCommand`
+>
+> **This step changes no files.** Everything runs in Ask mode. If your session is running short, this is the safest step to cut.
+
+
 ---
 
 ## Why context management matters
@@ -127,6 +134,29 @@ create an extension method that seeds 5 initial cat records into AppDbContext
 
 > ※ For a small one-off task the credit difference can come out small. The difference becomes pronounced on large tasks spanning multiple files, or when working continuously in Agent mode.
 
+### Experiment worksheet
+
+Fill this in as you go. Comparing from memory after all three runs does not work; the outputs blur together.
+
+```text
+                        │ A: none    │ B: #codebase │ C: #file
+────────────────────────┼────────────┼──────────────┼───────────
+Model shown in footer   │            │              │
+Credits shown in footer │            │              │
+Time to first token     │  fast/slow │  fast/slow   │  fast/slow
+Used only real Cat      │   Y / N    │    Y / N     │   Y / N
+  properties?           │            │              │
+Invented a property?    │  which:    │   which:     │   which:
+Correct namespace       │   Y / N    │    Y / N     │   Y / N
+  (MeowWorld.Data)?     │            │              │
+Japanese comments?      │   Y / N    │    Y / N     │   Y / N
+async/await used?       │   Y / N    │    Y / N     │   Y / N
+Would you ship it       │   Y / N    │    Y / N     │   Y / N
+  without edits?        │            │              │
+```
+
+The bottom row is the one that matters. Credits are a proxy; "would I have to fix this" is the actual cost.
+
 ### What to observe in the output
 
 When you compare the three outputs side by side, pay attention to:
@@ -221,6 +251,23 @@ When an error appears in the terminal:
 
 ---
 
+## Choosing a context strategy
+
+```mermaid
+flowchart TD
+    Q["What are you asking for?"] --> GEN{"General knowledge,<br/>nothing project-specific?"}
+    GEN -->|Yes| NONE["No context<br/>Ask mode"]
+    GEN -->|No| KNOW{"Do you know which files<br/>matter?"}
+    KNOW -->|Yes| FILE["#file:a #file:b<br/>most accurate, cheapest"]
+    KNOW -->|No| ERR{"Is it an error you<br/>just saw in the terminal?"}
+    ERR -->|Yes| TERM["#terminalLastCommand"]
+    ERR -->|No| CODE["#codebase<br/>slower, use when you<br/>genuinely need discovery"]
+```
+
+*Diagram: a decision tree. General questions need no context. When you know the relevant files, name them with `#file`, which is both the most accurate and the cheapest option. Use `#terminalLastCommand` for a fresh error, and fall back to `#codebase` only when you actually need Copilot to discover which files matter.*
+
+> **The practical rule:** `#codebase` is for discovery, not for accuracy. Once you know the answer to "which files matter", switching to `#file` is strictly better on every axis. People reach for `#codebase` out of habit because it feels thorough; it is mostly paying for a search you could have skipped.
+
 ## Cheat sheet: which to use when
 
 | What you want to do | Recommended context specification |
@@ -256,6 +303,16 @@ write the migration and model-change code to add a "vaccination record" property
 ```
 
 > **Note:** Ask mode does not change files. The aim here is to observe that "specifying `#file` produces accurate output". You will experience the real feature addition in Step 9 (Custom Agent).
+
+### Step 7 completion checklist
+
+- [ ] You ran all three patterns, each in its own new chat session
+- [ ] You filled in the worksheet while the outputs were in front of you
+- [ ] You found at least one difference in correctness, not just in speed
+- [ ] You located the model name and credit figure in the chat footer
+- [ ] **No files were changed** — confirm with `git status` if your `app/` is a repo, or just check that no editor tabs show unsaved changes
+
+> **If all three patterns produced equally good output**, that is a real result, not a failed experiment. It usually means the task was small enough that the model could infer the shape of `Cat` correctly from its name alone. Try again with something genuinely project-specific, such as `Cat の CreatedAt を使って「今月登録された猫」を返すメソッドを書いて` ("write a method that returns cats registered this month, using Cat.CreatedAt"), where guessing the property name is much harder.
 
 ---
 

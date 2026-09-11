@@ -6,6 +6,11 @@
 
 In this step you use GitHub Copilot's Agent mode to go all the way from creating an ASP.NET Core MVC project, through introducing the SQLite packages, to confirming that it builds.
 
+> **Time:** about 15 minutes
+> **You will end with:** a `MeowWorld` MVC project that builds and serves the default page, with three EF Core SQLite packages installed
+> **New Copilot skill:** running Agent mode end to end and approving its terminal commands
+
+
 ---
 
 ## Set up the project in Agent mode
@@ -65,22 +70,107 @@ and confirm that the build passes.
 
 > **Tip:** If an error occurs while the Agent is running, the Agent automatically analyses it and tries to fix it. This is one of the big advantages of Agent mode.
 
+### Reading the Agent's output as it works
+
+You are not just waiting here. Watch for four things, because they are what distinguishes Agent mode from Ask mode:
+
+| What you will see | What it means |
+|-------------------|---------------|
+| A terminal command with a **Continue / Cancel** prompt | The Agent will not run anything without your approval. Read the command before approving |
+| A file tree appearing in the chat | The Agent is reporting what it created, not asking |
+| A build error followed by more activity | The Agent caught the error itself and is fixing it. Do not intervene yet |
+| A final summary | The Agent believes it is done |
+
+> **How long should approval take?** Read each command. `dotnet new mvc -n MeowWorld` and `dotnet add package` are safe and expected. If you see a command that deletes files, touches anything outside `app/`, or installs something you did not ask for, cancel and ask the Agent why it wants to run it. That habit matters far more in a real repository than it does here.
+
 ### Verification
 
-Once the build succeeds, confirm that the application starts with the following command (or by running the debugger):
+Once the build succeeds, confirm that the application starts.
+
+**1. Check the expected file layout.** From the workspace root (`app/`):
+
+```bash
+ls MeowWorld
+```
+
+Expected, roughly:
+
+```text
+Controllers/  Models/  Views/  wwwroot/  Properties/
+appsettings.json  appsettings.Development.json
+MeowWorld.csproj  Program.cs  obj/  bin/
+```
+
+**2. Confirm the packages actually landed:**
 
 ```bash
 cd MeowWorld
+dotnet list package
+```
+
+Expected: all three SQLite/EF Core packages, on matching major versions.
+
+```text
+Project 'MeowWorld' has the following package references
+   [net10.0]:
+   Top-level Package                                Requested   Resolved
+   > Microsoft.EntityFrameworkCore.Design           10.0.0      10.0.0
+   > Microsoft.EntityFrameworkCore.Sqlite           10.0.0      10.0.0
+   > Microsoft.EntityFrameworkCore.Tools            10.0.0      10.0.0
+```
+
+> **If the major versions differ from each other** (say a 9.x mixed with 10.x), fix it now rather than in Step 5. Mismatched EF Core packages fail at migration time with an error that does not mention versions. Ask the Agent: `Align all EF Core package versions to the latest 10.x and rebuild.`
+
+**3. Run it:**
+
+```bash
 dotnet run
 ```
 
-If a browser opens and the default ASP.NET Core page appears, you have succeeded.
+Expected output, with your own port numbers:
+
+```text
+Building...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5244
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+```
+
+Open the `Now listening on` URL. If a browser opened by itself, use that.
+
+If the default ASP.NET Core page appears, you have succeeded.
 
 ![The default ASP.NET Core page at http://localhost:5244 showing the MeowWorld brand, Home and Privacy links, and a "Welcome" heading](./images/init-webapp.png)
 
 > A full text description of this screenshot is in [Image Analysis - Initial Web App](../ImageAnalysis/init-webapp.md).
 
-Stop the process once you have confirmed it starts.
+**4. Stop it.** Press `Ctrl` + `C` in the terminal. Leaving it running will lock the SQLite file in Step 5 and hold the port.
+
+---
+
+### When it does not work
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| `dotnet: command not found` | SDK missing or not on `PATH` | See the environment verification in [Step 2](../2_BeforeGettingStarted/README_EN.md) |
+| `MSB1003: Specify a project or solution file` | You are in `app/`, not `app/MeowWorld/` | `cd MeowWorld` first |
+| `Address already in use` | A previous `dotnet run` is still alive | Stop it, or let the Agent pick another port |
+| Browser shows a certificate warning | You opened the HTTPS URL and the dev cert is not trusted | `dotnet dev-certs https --trust`, or just use the HTTP URL |
+| The page loads but the navbar does not say `MeowWorld` | The project was created with a different name | Check `MeowWorld.csproj` exists; if not, the Agent named it something else |
+| The Agent created the project one level too deep (`app/MeowWorld/MeowWorld/`) | It ran `dotnet new` from inside a folder it had just created | Tell it: `The project is nested one level too deep. Move it so the csproj is at app/MeowWorld/MeowWorld.csproj` |
+
+The last row is the most common Agent-specific mistake in this step. It is worth watching for, because every path in the later steps assumes `app/MeowWorld/`.
+
+### Step 3 completion checklist
+
+- [ ] `app/MeowWorld/MeowWorld.csproj` exists
+- [ ] `dotnet list package` shows all three EF Core packages on matching majors
+- [ ] `dotnet build` succeeds with no errors
+- [ ] `dotnet run` serves a page whose navbar reads **MeowWorld**
+- [ ] You stopped the process with `Ctrl` + `C`
 
 ---
 

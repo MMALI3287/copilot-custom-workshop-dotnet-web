@@ -12,6 +12,34 @@ The comparison in this hands-on is not about "can it follow the conventions"; th
 - Observe the aspects where a difference still appears: reproducibility, accountability, less rework
 - Confirm quantitatively that it is "easier to improve", not that it "always gets better"
 
+> **Time:** about 45 minutes
+> **You will end with:** a `.agent.md`, a `SKILL.md`, and measurements comparing three configurations
+> **New Copilot skills:** Custom Agents and Skills
+>
+> **This is the headline step.** If time is short elsewhere, protect this one.
+
+### Isolating the Before and After
+
+The comparison only means something if both runs start from the same code. Decide how you will do that **before** you run the Before case.
+
+| Method | How | Trade-off |
+|--------|-----|-----------|
+| **Branch** (recommended) | `git checkout -b before-baseline`, run Before, then `git checkout main` for After | Cleanest. Keeps both results for side-by-side reading |
+| **Revert** | Run Before, then `git checkout .` and `git clean -fd` to discard | Simple, but you lose the Before code and can only compare from notes |
+| **Read only** | Run Before, note what happened, keep the changes, run After on top | **Do not do this.** The second run sees the first run's code and the comparison is meaningless |
+
+If your `app/` is not a git repository yet, make it one now. It takes a moment and it is what makes this step measurable:
+
+```bash
+# from the workspace root (app/)
+git init
+git add -A
+git commit -m "Baseline before Step 9"
+```
+
+> **`app/` is gitignored by the workshop repository**, so initialising a repo inside it does not interfere with anything. It is a throwaway repo for this exercise.
+
+
 ---
 
 ## What a Custom Agent is
@@ -119,6 +147,21 @@ At the end, output the following:
 | Explicitness of risk | Are known constraints or unresolved points reported? |
 
 > **Important:** the aim here is not "to look for failures" but **to take measurements for comparison**.
+
+#### How to count "additional inputs" consistently
+
+This is the metric people record inconsistently, which ruins the comparison. Use these rules for both runs:
+
+| Situation | Counts as an additional input? |
+|-----------|-------------------------------|
+| Approving a terminal command the Agent proposed | **No.** Approval is not instruction |
+| "Continue" when the Agent pauses on its own | **No** |
+| "The build is broken, fix it" | **Yes** |
+| "You forgot the tests" | **Yes** |
+| "Which files did you change?" | **Yes** — this is the one the reply format is meant to eliminate |
+| Answering a clarifying question the Agent asked | **Yes**, and note that it asked |
+
+A run that needs zero additional inputs scores Y on first-pass acceptance. Anything else scores N, even if the code was ultimately fine.
 
 ### Comparison sheet (recommended)
 
@@ -584,6 +627,34 @@ Requirements:
 - Has `.agent.md` itself become slimmer while the output quality is maintained?
 - Is it implementing along the procedure in the Skill's knowledge (the new-feature pattern)?
 
+### Fill this in across all three runs
+
+```text
+                          │ Plain Agent │ Agent+#file │ Agent+Skill
+──────────────────────────┼─────────────┼─────────────┼─────────────
+First-pass accepted?      │    Y / N    │    Y / N    │    Y / N
+Additional inputs         │      __     │      __     │      __
+Reported changed files?   │    Y / N    │    Y / N    │    Y / N
+Reported build result?    │    Y / N    │    Y / N    │    Y / N
+Reported test result?     │    Y / N    │    Y / N    │    Y / N
+Reported risks?           │    Y / N    │    Y / N    │    Y / N
+Followed file placement   │    Y / N    │    Y / N    │    Y / N
+  conventions?            │             │             │
+Test names in Japanese?   │    Y / N    │    Y / N    │    Y / N
+Broke an existing test?   │    Y / N    │    Y / N    │    Y / N
+```
+
+### Interpreting your results honestly
+
+Read this before you draw conclusions, because the likely outcome is not the tidy one.
+
+- **The plain Agent may well produce working code.** The Custom Instructions from Step 4 are still active in all three runs. That is deliberate: the workshop compares like with like rather than staging a difference by removing guardrails. If your Before run produced good code, the experiment worked correctly
+- **The difference to look for is in the reporting rows**, not the "did it work" row. A plain Agent that produces correct code but does not tell you what it changed still costs a reviewer time
+- **A single run of each is weak evidence.** Model output varies between runs on identical input. One trial tells you what happened once. If you want a real signal, run each configuration two or three times and look at the spread
+- **`Agent+#file` and `Agent+Skill` may score identically on quality.** They should. The Skill's advantage is token efficiency and maintainability, not output quality, and a single small feature is too small a task to show a token difference. The claim being demonstrated is architectural, not performance
+
+If your results contradict the table below, trust your results and say so in the retrospective. A workshop that only permits one outcome is not measuring anything.
+
 ### Overall comparison
 
 | Aspect | Plain Agent | Custom Agent (`#file`) | Custom Agent + Skill |
@@ -615,6 +686,47 @@ Once the Before/After comparison is done, adopt the "favourites feature" generat
 @meowworld-dev Confirm that the build and the tests pass,
 and fix anything that is wrong.
 ```
+
+---
+
+## When the Custom Agent does not appear
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `@meowworld-dev` is not offered when you type `@` | The file is in the wrong place | It must be `app/.github/agents/meowworld-dev.agent.md` |
+| Still not offered after moving it | YAML front matter is malformed | The `---` fences must be the first and third elements, with valid YAML between. A tab character anywhere in YAML breaks it |
+| Offered, but behaves like a plain Agent | The body is being ignored | Confirm the front matter closes with `---` before the `#` heading |
+| `tools` appears to do nothing | Wrong tool name | Use `search/codebase`, not `codebase` |
+| The Skill is never consulted | The `description` does not signal when to use it | Rewrite it to name the triggering situations: "refer to it when adding a new controller, model, view or test" |
+| Changes to `.agent.md` have no effect | The session cached the old definition | Start a new chat session, as with Custom Instructions |
+
+Verify the file layout:
+
+```bash
+# from the workspace root (app/)
+find .github/agents .github/skills -type f
+```
+
+Expected:
+
+```text
+.github/agents/meowworld-dev.agent.md
+.github/skills/meowworld-patterns/SKILL.md
+```
+
+> **The Skill must be `SKILL.md` inside its own named folder.** A file at `.github/skills/meowworld-patterns.md` will not be discovered. The folder name is the Skill's identifier, and it is what you list under `skills:` in the agent.
+
+### Step 9 completion checklist
+
+- [ ] `docs/architecture-guide.md` was generated
+- [ ] You ran the Before case on a clean baseline and recorded its metrics
+- [ ] `.github/agents/meowworld-dev.agent.md` exists and `@meowworld-dev` is offered
+- [ ] You ran the After case from the same baseline, not on top of the Before changes
+- [ ] `.github/skills/meowworld-patterns/SKILL.md` exists
+- [ ] The agent was updated to reference the Skill and the `#file` line was removed
+- [ ] You ran the third case and filled in all three columns
+- [ ] The favourites feature works, builds, and `dotnet test` passes
+- [ ] You can state one thing the comparison did **not** show, as well as what it did
 
 ---
 

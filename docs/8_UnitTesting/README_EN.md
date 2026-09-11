@@ -6,6 +6,11 @@
 
 In this step you generate and run unit tests using Copilot's **`/tests` command** and Agent mode. You leave everything from creating the test project to implementing the tests to the Agent.
 
+> **Time:** about 25 minutes
+> **You will end with:** a `MeowWorld.Tests` project whose tests all pass
+> **New Copilot skills:** `/tests`, and watching the Agent repair a failing test
+
+
 ---
 
 ## 1. Create the test project
@@ -141,11 +146,45 @@ MeowWorld.Tests/
 
 > **Note:** the test file name and subfolder structure vary depending on what Copilot generates (it may be generated into `UnitTest1.cs`, for example). What matters is not the file placement but that **the test content satisfies the requirements** and that **`dotnet test` passes completely**.
 
-Example test result:
+Run them yourself rather than trusting the Agent's summary:
+
+```bash
+# from the workspace root (app/)
+dotnet test
+```
+
+Expected:
 
 ```text
-Passed!  - Failed:     0, Passed:     X, Skipped:     0, Total:     X
+Restore complete (0.4s)
+  MeowWorld succeeded (1.2s)
+  MeowWorld.Tests succeeded (0.9s)
+
+Test summary: total: 5, failed: 0, succeeded: 5, skipped: 0, duration: 1.4s
+Build succeeded in 3.1s
 ```
+
+The older formatter prints it as:
+
+```text
+Passed!  - Failed:     0, Passed:     5, Skipped:     0, Total:     5
+```
+
+Either is fine. What matters is `failed: 0` and a total greater than zero.
+
+> **`total: 0` is a failure, not a pass.** A run that discovers no tests exits 0 and looks green. If you see a total of zero, the test project is not referencing xUnit correctly or the test class is not `public`.
+
+#### Common test failures and what they mean
+
+| Failure | Cause | Fix |
+|---------|-------|-----|
+| `The type or namespace name 'CatsController' could not be found` | The test project has no reference to `MeowWorld` | `dotnet add MeowWorld.Tests reference MeowWorld` |
+| `No suitable constructor found for CatsController` | The controller's constructor signature differs from what the test assumes (often a missing `ILogger`) | Open `CatsController.cs` and match the test helper to the real signature |
+| Tests pass alone but fail together | Two tests share an InMemory database name | Give each a unique name; `nameof(TheTestMethod)` is the usual trick |
+| `Sequence contains no elements` | The test asserts on seed data that only exists in the real SQLite DB | InMemory starts empty. The test must add its own data in Arrange |
+| `Object reference not set` on `viewResult.Model` | The action returned a redirect or NotFound, not a view | Assert the actual result type first to see what came back |
+
+Rows 3 and 5 are the ones worth internalising. A shared InMemory name is the classic flaky-test cause in EF Core, and it is exactly what the `tests.instructions.md` rule about unique DB names exists to prevent.
 
 ---
 
@@ -230,6 +269,20 @@ public class CatsControllerTests
 > C# allows Unicode identifiers, so Japanese test method names compile and run fine. They keep the test report readable for a Japanese-speaking team. If your team reads English, switch the convention in `.github/instructions/tests.instructions.md` rather than renaming tests by hand.
 
 </details>
+
+---
+
+## Step 8 completion checklist
+
+- [ ] `MeowWorld.Tests/` exists and is referenced by the solution
+- [ ] The test project references `MeowWorld` and `Microsoft.EntityFrameworkCore.InMemory`
+- [ ] `dotnet test` reports `failed: 0` with a total greater than zero
+- [ ] Test method names are Japanese
+- [ ] Each test has `// Arrange`, `// Act` and `// Assert` comments
+- [ ] Each test uses a unique InMemory database name
+- [ ] You deliberately broke something and watched the Agent repair it
+
+> **On skipping this step:** the test conventions here come from `.github/instructions/tests.instructions.md`, which is Step 4 content. If you skip Step 8 for time, you lose one demonstration of path-scoped instructions but nothing that Step 9 depends on structurally. Step 9's Custom Agent does require `dotnet test` to pass as part of its Definition of Done, so if you skip this, expect the Agent in Step 9 to create the test project itself.
 
 ---
 

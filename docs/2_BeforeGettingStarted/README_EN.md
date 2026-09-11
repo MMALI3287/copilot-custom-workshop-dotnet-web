@@ -16,6 +16,45 @@
 4. Unit tests (xUnit)
 5. Add a new feature with a Custom Agent
 
+### How the steps fit together
+
+```mermaid
+flowchart TD
+    S3["Step 3<br/>Create the project<br/>(Agent mode)"] --> S4["Step 4<br/>Custom Instructions<br/>(the guardrails)"]
+    S4 --> S5["Step 5<br/>DB layer<br/>(feel Step 4 working)"]
+    S5 --> S6["Step 6<br/>MVC + Vision<br/>(UI from an image)"]
+    S6 --> S7["Step 7<br/>Context management<br/>(step back, experiment)"]
+    S7 --> S8["Step 8<br/>Unit tests<br/>(/tests + auto-repair)"]
+    S8 --> S9["Step 9<br/>Custom Agent + Skill<br/>(measure the difference)"]
+    S9 --> S10["Step 10<br/>Retrospective"]
+
+    S4 -.->|"applied automatically<br/>from here on"| S5
+    S4 -.-> S6
+    S4 -.-> S8
+```
+
+*Diagram: Steps 3 through 10 run in sequence. Step 4 is the pivot — the Custom Instructions it creates are applied automatically to every step that follows, which is why Steps 5, 6 and 8 produce convention-following code without being told the conventions.*
+
+### Approximate timing
+
+Use this to pace a facilitated session. Times assume the environment is already installed.
+
+| Step | Content | Time | Can it be skipped? |
+|------|---------|------|--------------------|
+| 1 | Story | 5 min | Yes, read it alone |
+| 2 | This page | 10 min | No, contains prerequisites |
+| 3 | Create the project | 15 min | No |
+| 4 | Custom Instructions | 30 min | No, everything after depends on it |
+| 5 | DB layer | 25 min | No |
+| 6 | MVC + Vision | 40 min | The Vision exercise can fall back to text |
+| 7 | Context management | 30 min | Yes, it is reflection rather than build |
+| 8 | Unit tests | 25 min | Yes if time is short |
+| 9 | Custom Agent + Skill | 45 min | No, this is the headline content |
+| 10 | Retrospective | 15 min | No |
+
+Total roughly **4 hours** including breaks. For a half-day session, drop Steps 7 and 8 and keep 9.
+
+
 ## Copilot features you will learn in this workshop
 
 | Feature | Step where you learn it | Overview |
@@ -105,6 +144,8 @@ Commands in this workshop are written **assuming bash (shell)**.
 
 ## Prerequisites
 
+### What you need
+
 - A [GitHub Copilot](https://github.com/features/copilot/plans) license (Business or Enterprise)
 - One of the following development environments:
   - **Recommended:** [Visual Studio 2026](https://visualstudio.microsoft.com/vs/) + [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
@@ -113,6 +154,104 @@ Commands in this workshop are written **assuming bash (shell)**.
 - **Agent mode** available in Copilot Chat
 - The [dotnet-ef](https://learn.microsoft.com/ef/core/cli/dotnet) tool installed
 - [Git CLI](https://git-scm.com/install/windows)
+
+### Verify your environment before you start
+
+Run these **before** the session, not during it. Every one of them has caused a workshop to stall.
+
+#### 1. The .NET SDK
+
+```bash
+dotnet --version
+```
+
+Expected: `10.0.x` (or `8.0.x` if you are on VS2022).
+
+```bash
+dotnet --list-sdks
+```
+
+Expected: at least one line starting with `10.` or `8.`, for example:
+
+```text
+10.0.100 [C:\Program Files\dotnet\sdk]
+```
+
+> **If `dotnet` is not found:** the SDK is not installed, or its folder is not on your `PATH`. Reinstall from the link above and open a **new** terminal; an existing terminal will not pick up the new `PATH`.
+>
+> **If only an older SDK is listed:** installing a new SDK does not remove old ones. That is fine. `dotnet new` uses the newest by default unless a `global.json` pins it.
+
+#### 2. The EF Core CLI tool
+
+```bash
+dotnet tool list --global
+```
+
+Expected: a row for `dotnet-ef`.
+
+```text
+Package Id      Version      Commands
+---------------------------------------
+dotnet-ef       10.0.0       dotnet-ef
+```
+
+If it is missing:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+If it is present but on the wrong major version:
+
+```bash
+dotnet tool update --global dotnet-ef
+```
+
+> **Why the major version matters:** the `dotnet-ef` major version must match your EF Core package major version. EF Core 10 packages with a version 8 tool produces an error that names neither, which is why this is worth checking up front. Step 5 covers it again if you hit it there.
+>
+> You can leave this one to the Agent if you prefer. Step 5 shows the Agent installing it on demand.
+
+#### 3. Git
+
+```bash
+git --version
+```
+
+Expected: `git version 2.x.x`.
+
+#### 4. Copilot Chat and Agent mode
+
+This one is visual rather than a command:
+
+1. Open your IDE
+2. Open the Copilot Chat panel
+   - **VS Code:** `Ctrl` + `Alt` + `I` (Windows/Linux), `Cmd` + `Ctrl` + `I` (macOS), or click the Copilot icon in the title bar
+   - **Visual Studio 2026:** View > GitHub Copilot Chat
+3. Find the mode dropdown at the bottom of the chat input box
+4. Confirm that **Agent** is one of the options
+
+> **If Agent is not listed:**
+> - Update the GitHub Copilot Chat extension and restart the IDE. This fixes it most of the time
+> - Confirm you are signed in to the account that holds the Copilot license (VS Code: the Accounts icon in the bottom left)
+> - Agent mode may be disabled by an organisation policy. If you are on a Business or Enterprise plan, an administrator controls this under the organisation's Copilot policy settings
+>
+> More in the [Troubleshooting Guide](../TroubleshootingGuide/README_EN.md).
+
+#### 5. Your Copilot license is active
+
+In Copilot Chat, send any short question. If you get an answer, the license is active. If you get an authentication error, sign out and back in.
+
+### Pre-session checklist
+
+Everything below should be true before Step 3.
+
+- [ ] `dotnet --version` prints 10.x (or 8.x on VS2022)
+- [ ] `dotnet tool list --global` shows `dotnet-ef`, or you accept letting the Agent install it
+- [ ] `git --version` prints a version
+- [ ] The Copilot Chat panel opens
+- [ ] **Agent** appears in the mode dropdown
+- [ ] A test question in Copilot Chat returns an answer
+- [ ] You have cloned this repository and can see the `docs/` folder
 
 ## Expected outcomes
 

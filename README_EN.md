@@ -35,6 +35,25 @@ In this workshop you will learn the latest GitHub Copilot capabilities hands-on,
 
 ---
 
+## Running this as a facilitated session
+
+| Format | Duration | Steps to cover |
+|--------|----------|----------------|
+| Full workshop | ~4 hours | All of 1-10 |
+| Half day | ~2.5 hours | 1-6, then 9 and 10. Drop 7 and 8 |
+| Copilot-customisation focus | ~2 hours | 2, 4, 9, 10. Provide a pre-built app |
+| Self-paced | Any | All, in order. Step 2's pre-session checklist matters most here |
+
+**Send participants the [Step 2 prerequisites](docs/2_BeforeGettingStarted/README_EN.md#prerequisites) a day ahead.** Every command in it is verifiable in under a minute, and environment problems discovered at the start of a session cost the whole room, not just one person.
+
+Three things worth knowing before you facilitate:
+
+- **Step 4 is load-bearing.** Steps 5, 6 and 8 all demonstrate its effect. It is the one step that cannot be skipped for time
+- **Step 9's comparison needs a clean baseline.** Participants who run the After case on top of the Before changes will measure nothing. The setup for this is spelled out at the top of Step 9
+- **Outputs will differ between participants.** Model selection under Auto varies, so two people running an identical prompt get different code. Plan for that rather than treating it as an error, and use it: it is a genuine property of the tool worth discussing in the retrospective
+
+---
+
 ## About this English edition
 
 The workshop was originally authored in Japanese, and the MeowWorld application it builds has a Japanese UI by design. This English edition exists so that non-Japanese speakers can follow the same steps.

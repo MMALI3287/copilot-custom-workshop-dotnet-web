@@ -6,6 +6,10 @@
 
 In this step you make use of Agent mode and Custom Instructions to implement the Entity Framework Core model, the DbContext and the migrations.
 
+> **Time:** about 25 minutes
+> **You will end with:** a `Cat` entity, an `AppDbContext`, an applied migration, and a `meowworld.db` file holding 5 rows
+> **New Copilot skills:** watching the Agent self-repair build errors, and `/fix`
+
 > **✨ This is the step where you feel the effect of Step 4:** the code the Agent generates here automatically picks up the Custom Instructions you configured in Step 4 (Japanese comments, file-scoped namespaces, primary constructors and so on). Confirm that "code following the conventions comes out even though I specified nothing".
 
 ---
@@ -117,7 +121,82 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
-> **If an error appears:** the `dotnet-ef` tool may not be installed. Leave it to the Agent and it will run `dotnet tool install --global dotnet-ef` for you.
+Expected output from the first command:
+
+```text
+Build started...
+Build succeeded.
+Done. To undo this action, use 'ef migrations remove'
+```
+
+And from the second:
+
+```text
+Build started...
+Build succeeded.
+Applying migration '20260911070000_InitialCreate'.
+Done.
+```
+
+#### Migration failures and what they actually mean
+
+| Error text | What it means | Fix |
+|------------|---------------|-----|
+| `Could not execute because the specified command or file was not found: dotnet-ef` | The tool is not installed | `dotnet tool install --global dotnet-ef`, or let the Agent do it |
+| `The Entity Framework tools version 'X' is older than that of the runtime 'Y'` | Tool major version is behind the packages | `dotnet tool update --global dotnet-ef` |
+| `Unable to create a 'DbContext' of type ''` | The DbContext is not registered in `Program.cs`, or the connection string is missing | Confirm both from task 1 above |
+| `No project was found` | You are in the wrong folder | `cd MeowWorld` |
+| `Your target project 'X' doesn't match your migrations assembly` | The migration landed in the wrong project | Only relevant if you split projects; not expected here |
+
+> **The version mismatch error is the one that wastes time**, because it names a version but not which component is which. "Tools version" is `dotnet-ef`; "runtime" is your EF Core packages. Update the tool.
+
+#### Verify the database really exists
+
+Do not take "Done." as proof. Check the artefacts:
+
+```bash
+ls Migrations
+```
+
+Expected: three files, with your own timestamp.
+
+```text
+20260911070000_InitialCreate.cs
+20260911070000_InitialCreate.Designer.cs
+AppDbContextModelSnapshot.cs
+```
+
+```bash
+ls -la meowworld.db
+```
+
+Expected: the file exists and is **not** 0 bytes. A 0-byte file means the migration was created but never applied.
+
+If you have the `sqlite3` CLI available, confirm the rows landed:
+
+```bash
+sqlite3 meowworld.db "SELECT Id, Name, Age, Breed FROM Cats;"
+```
+
+Expected:
+
+```text
+1|みけ|3|三毛猫
+2|くろ|5|黒猫
+3|しろ|2|白猫
+4|チャチャ|1|茶トラ
+5|ソラ|4|ロシアンブルー
+```
+
+No `sqlite3`? Ask Copilot instead:
+
+> 🕵️ **Agent mode**
+>
+> ```
+> meowworld.db の Cats テーブルの中身を確認して
+> ```
+>
+> English: `Check the contents of the Cats table in meowworld.db`
 
 ---
 
@@ -261,6 +340,22 @@ The class summary means "Application database context", `猫テーブル` means 
 - [x] Japanese seed data
 
 </details>
+
+---
+
+## Step 5 completion checklist
+
+- [ ] `Models/Cat.cs` exists with all six properties
+- [ ] `Data/AppDbContext.cs` exists with `DbSet<Cat>` and seed data
+- [ ] `appsettings.json` contains `"DefaultConnection": "Data Source=meowworld.db"`
+- [ ] `Program.cs` registers the DbContext
+- [ ] `Migrations/` contains three files
+- [ ] `meowworld.db` exists and is larger than 0 bytes
+- [ ] The `Cats` table holds 5 rows
+- [ ] `dotnet build` succeeds
+- [ ] The generated code uses file-scoped namespaces, Japanese comments, `required` and `string?` — none of which you asked for in the prompt
+
+The last box is the point of the step. If it is unticked, revisit the Step 4 diagnostics.
 
 ---
 

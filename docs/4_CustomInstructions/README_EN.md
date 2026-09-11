@@ -6,6 +6,36 @@
 
 In this step you learn GitHub Copilot's **Custom Instructions** feature in three stages. Copilot will follow your project rules automatically, without you having to write them into every prompt.
 
+> **Time:** about 30 minutes
+> **You will end with:** four files under `.github/` that shape every Copilot response from here on
+> **New Copilot skills:** repository instructions, path-scoped instructions, reusable prompts
+>
+> **This is the pivot step.** Steps 5, 6 and 8 all demonstrate their effect. If you skip it, the rest of the workshop loses its point.
+
+### How the three levels relate
+
+```mermaid
+flowchart TD
+    subgraph auto["Applied automatically"]
+        CI["copilot-instructions.md<br/>every chat, always"]
+        FS[".instructions.md + applyTo<br/>when a matching file is edited"]
+    end
+    subgraph manual["Invoked explicitly"]
+        PR[".prompt.md<br/>when you type /name"]
+    end
+
+    CI --> OUT["Copilot's response"]
+    FS --> OUT
+    PR --> OUT
+
+    CI -. "narrowest wins on<br/>a direct conflict" .- FS
+```
+
+*Diagram: repository instructions and path-scoped instructions both reach Copilot automatically, the first on every chat and the second only when a matching file is being edited. Reusable prompts reach it only when you invoke them by name. All three feed the same response.*
+
+> **What happens when they conflict?** Copilot does not publish a formal precedence table, and behaviour has shifted across releases. In practice the more specific instruction usually wins, and contradictions produce inconsistent results rather than an error. Treat that as a reason to keep the layers complementary rather than overlapping: put universal rules in `copilot-instructions.md` and only file-type specifics in `.instructions.md`. If you need certainty, test it and do not rely on the ordering staying fixed.
+
+
 > **Note on language:** the instruction files below are written in Japanese on purpose. They are what makes the MeowWorld UI and its code comments Japanese, which is the workshop's intended result. English translations are given next to each file so you can read what you are pasting. If you want a bilingual UI with a JA/EN toggle, do not change these files here; follow [docs/Localization/README.md](../Localization/README.md) instead, which adds the toggle on top of the Japanese baseline.
 
 ---
@@ -126,11 +156,48 @@ ASP.NET Core MVC で猫の情報（名前・年齢・品種）を表す DTO ク�
 
 ### What to check
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| Comment language | Mostly English | Japanese |
-| Namespace form | Block form | File-scoped |
-| Null safety | Not considered | `required` / `string?` used |
+Put the two outputs side by side. The point is not that the "after" is better code; it is that you never asked for any of these properties.
+
+| Aspect | Before (typical) | After (expected) | Which rule produced it |
+|--------|------------------|------------------|------------------------|
+| Response language | English | Japanese | `日本語で回答すること` |
+| Comment language | English | Japanese | The comment conventions section |
+| Namespace form | `namespace X { }` | `namespace X;` | The C# conventions section |
+| Null safety | `string Name` | `required string Name`, `string?` | The C# conventions section |
+| Constructor style | Classic constructor | Primary constructor | The C# conventions section |
+| Async | Sometimes sync | `async`/`await` preferred | The ASP.NET Core section |
+
+### Record it while it is in front of you
+
+You will want this again in Step 9, where you compare a plain Agent against a Custom Agent. Copy this into your notes:
+
+```text
+BEFORE (no Custom Instructions)
+  Response language : ______________
+  Comment language  : ______________
+  Namespace form    : block / file-scoped
+  required keyword  : yes / no
+  Nullable types    : yes / no
+  Primary ctor      : yes / no
+
+AFTER (Custom Instructions in place)
+  Response language : ______________
+  Comment language  : ______________
+  Namespace form    : block / file-scoped
+  required keyword  : yes / no
+  Nullable types    : yes / no
+  Primary ctor      : yes / no
+```
+
+> **If "after" looks identical to "before":** the instructions are not loading. Work through these in order.
+>
+> 1. **Did you open a new chat session?** An existing session does not pick up a newly created instruction file. This is the cause more often than everything else combined
+> 2. **Is the file at exactly `app/.github/copilot-instructions.md`?** Not `app/MeowWorld/.github/`, not `docs/.github/`. It must be directly under the folder you opened as the workspace
+> 3. **VS Code:** confirm `github.copilot.chat.codeGeneration.useInstructionFiles` is `true` in Settings
+> 4. **Visual Studio 2026:** Tools > Options > GitHub Copilot > Custom Instructions, confirm the reference is enabled
+> 5. **Ask Copilot directly:** send `What custom instructions are you currently following?` in a new session. If it cannot name your rules, it is not reading the file
+>
+> Item 5 is the fastest single check and works in both IDEs.
 
 ---
 
@@ -312,6 +379,46 @@ English equivalent:
 ```
 
 > **Tip:** `.prompt.md` files can be shared across the whole team, enabling a practice of "use this prompt when adding this kind of feature". You will put this prompt to real use in Step 6.
+
+---
+
+## Verifying all three levels are live
+
+Run these three checks in a **new chat session** before moving to Step 5. Each one isolates a single level.
+
+| # | Check | How | Expected |
+|---|-------|-----|----------|
+| 1 | Repository instructions | Ask `What custom instructions are you currently following?` | It summarises your rules |
+| 2 | Path-scoped instructions | Ask `Views/Cats/Index.cshtml に猫の一覧テーブルを作成して` | Output uses Bootstrap 5 classes and Japanese labels |
+| 3 | Reusable prompt | Type `/` in the chat box | `create-crud-controller` appears in the list |
+
+If check 3 fails, the cause is almost always folder placement. Confirm the tree:
+
+```bash
+# from the workspace root (app/)
+find .github -type f
+```
+
+Expected:
+
+```text
+.github/copilot-instructions.md
+.github/instructions/views.instructions.md
+.github/instructions/tests.instructions.md
+.github/prompts/create-crud-controller.prompt.md
+```
+
+> **A prompt file under `MeowWorld/.github/prompts/` will not be found.** The `.github/` folder has to sit directly under the workspace root, which is `app/`. This is the single most common Step 4 mistake, and it silently produces "no candidates" rather than an error.
+
+### Step 4 completion checklist
+
+- [ ] `.github/copilot-instructions.md` exists at the workspace root
+- [ ] `.github/instructions/views.instructions.md` exists with `applyTo: "**/*.cshtml"`
+- [ ] `.github/instructions/tests.instructions.md` exists with `applyTo: "**/*.Tests/**"`
+- [ ] `.github/prompts/create-crud-controller.prompt.md` exists
+- [ ] A new chat session can describe your custom instructions back to you
+- [ ] `/create-crud-controller` appears when you type `/`
+- [ ] You recorded the before/after comparison for use in Step 9
 
 ---
 

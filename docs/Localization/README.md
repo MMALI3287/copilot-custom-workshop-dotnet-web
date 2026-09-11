@@ -50,6 +50,34 @@ The full key-by-key list is in the [string catalog](string-catalog.md).
 
 ---
 
+## How a request resolves a language
+
+Worth internalising before you debug anything, because almost every toggle bug is a misunderstanding of this sequence.
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant M as UseRequestLocalization
+    participant V as Razor view
+    participant R as SharedResource.resx
+
+    B->>M: GET /Cats
+    Note over M: 1. ?culture= query string<br/>2. .AspNetCore.Culture cookie<br/>3. Accept-Language header<br/>first match wins
+    M->>M: set CurrentUICulture = "en"
+    M->>V: request continues
+    V->>R: L["Col_Name"]
+    R-->>V: "Name" (from SharedResource.en.resx)
+    V-->>B: rendered HTML
+```
+
+*Sequence: the localization middleware inspects the query string, then the cookie, then the Accept-Language header, and the first match sets the request's UI culture. Everything downstream, including the view's resource lookups, reads that culture. A view rendered before the middleware runs would see the default culture instead, which is why middleware order matters.*
+
+The practical consequences:
+
+- **Anything that runs before the middleware sees the default culture.** That is the whole reason for the ordering rule below
+- **The cookie is not read by your code.** You write it once in the controller; the middleware reads it on every subsequent request
+- **A missing key does not throw.** The lookup returns the key itself, so `Col_Name` renders literally on the page
+
 ## Pseudocode first
 
 Before the real code, the whole mechanism in eight lines:
@@ -80,6 +108,25 @@ The two things to hold on to: **the cookie is the state**, and **the middleware 
 ---
 
 ## Implementation
+
+> **Effort:** roughly 2 hours for the mechanism, plus 30 minutes per 50 strings you migrate.
+>
+> **Do it in this order.** Each step is verifiable on its own, so a mistake surfaces immediately rather than three steps later.
+>
+> | # | Step | Verify before continuing |
+> |---|------|--------------------------|
+> | 1 | Register the services | `dotnet build` succeeds |
+> | 2 | Install the middleware | App still starts and serves pages |
+> | 3 | Create `SharedResource.cs` and the `.resx` files | Build succeeds; the resx files appear in `bin/` after a build |
+> | 4 | Localise **one** string in one view | That string still renders. If it renders as the key, stop and fix it here |
+> | 5 | Build the toggle | Clicking it sets the cookie, visible in DevTools |
+> | 6 | Set `lang` on `<html>` | View source shows the right value |
+> | 7 | Migrate the remaining strings | Both languages render everywhere |
+> | 8 | Localise validation messages | An empty-name submit shows a translated error |
+>
+> Step 4 is the checkpoint that matters. Getting one string working proves the services, the middleware, the file naming and the build action are all correct. Migrating fifty strings and then discovering the resx suffix is wrong is a bad afternoon.
+
+
 
 ### Step 1: register the services
 

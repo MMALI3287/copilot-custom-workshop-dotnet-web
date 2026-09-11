@@ -6,6 +6,13 @@
 
 In this step you implement the controller and the views. You then use Copilot's **Vision feature** (image recognition) to generate UI from a wireframe image.
 
+> **Time:** about 40 minutes
+> **You will end with:** a working CRUD screen for cats, styled from a wireframe
+> **New Copilot skills:** invoking a `.prompt.md`, and Vision (attaching an image)
+>
+> **The longest step.** If you are running short, the Vision exercise (section 2) is the part with a text-based fallback.
+
+
 ---
 
 ## 1. Generate the CRUD controller (using .prompt.md)
@@ -106,10 +113,25 @@ Either option is fine for the exercises that follow.
 
 1. Switch Copilot Chat to Agent mode
 
-2. Click the **paperclip icon (📎)** in the chat input box and attach the following image:
-   - `docs/assets/Designer.png` inside the cloned repository (one level above the workspace -> `docs/assets/`)
+2. Attach the wireframe image to the chat. There are three ways, in order of reliability:
 
-   > **If you cannot find the image:** look for `copilot-custom-workshop-dotnet-web/docs/assets/Designer.png` in your file explorer. Ask your instructor, or use the "text-based alternative" below.
+   | Method | How | Notes |
+   |--------|-----|-------|
+   | **Paperclip** | Click 📎 in the chat input box, then browse to the file | Most reliable. In VS Code the menu item is "Attach Context" or "Add Context" depending on version |
+   | **Drag and drop** | Drag the PNG from your file explorer onto the chat input | Fast, but some VS Code versions insert a path rather than the image |
+   | **Paste** | Copy the image to the clipboard, then `Ctrl` + `V` in the chat box | Works well when you have just taken a screenshot |
+
+   The file to attach:
+
+   ```text
+   copilot-custom-workshop-dotnet-web/docs/assets/Designer.png
+   ```
+
+   Remember this sits **one level above your workspace**, since your workspace is `app/`. From the workspace it is `../docs/assets/Designer.png`.
+
+   **Confirm the attachment worked before sending.** You should see a thumbnail or a chip naming the image in the input box. If you only see a file path as text, the image was not attached and Copilot will be guessing.
+
+   > **If you cannot attach an image at all**, Vision is unavailable in your setup. This is expected on Visual Studio 2022 and on some older Copilot Chat versions. Skip to the [text-based alternative](#text-based-alternative-for-vs2022-or-when-you-have-no-image) below. You will get an equivalent UI; you just will not experience the image-to-code workflow.
 
 3. Enter the following prompt:
 
@@ -148,7 +170,39 @@ Use wwwroot/images/logo.png for the header logo.
 | Action buttons | Details / Edit / Delete link buttons |
 | Responsive | Bootstrap `container-fluid` + `row` + `col` |
 
-> **Learning point:** using Vision dramatically streamlines the "implement the screen the designer made" workflow. You no longer have to describe the layout in fine detail in the prompt.
+### How close should you expect it to be?
+
+Set expectations honestly, because "it does not look identical" is the most common reaction here and it is the wrong conclusion.
+
+| Aspect | Expect | Why |
+|--------|--------|-----|
+| Overall layout (header, sidebar, table) | **Close** | Structure is what Vision reads most reliably |
+| Presence of the right columns and buttons | **Close** | These are explicit in the image |
+| Exact spacing, font sizes, border weights | **Not close** | The wireframe is a hand sketch with no measurements |
+| Colours | **Invented** | The wireframe is black and white. Any colour came from Bootstrap or from the model |
+| The eight sample cats in the wireframe | **Will not appear** | Your data comes from the Step 5 seed, which has five different cats |
+| Sidebar items beyond Dashboard / Cat list / Register | **Dead links** | Nothing behind them exists |
+
+The last two are the ones that confuse people. The wireframe was drawn before the data model existed, so its sample rows and your real rows deliberately disagree. Full detail is in [Image Analysis - Designer Wireframe](../ImageAnalysis/designer-wireframe.md).
+
+### If the result is wrong, iterate rather than restart
+
+Vision output is a starting point. Refine it in the same session, where the image is still in context:
+
+```
+サイドバーが本文の上に重なっています。Bootstrap の grid で
+サイドバーと本文を横並びにしてください。
+```
+
+English: `The sidebar is overlapping the main content. Use the Bootstrap grid to place the sidebar and the content side by side.`
+
+```
+テーブルに「説明」列が抜けています。Cat.Description を表示する列を追加してください。
+```
+
+English: `The table is missing the Description column. Add a column that displays Cat.Description.`
+
+> **Learning point:** using Vision dramatically streamlines the "implement the screen the designer made" workflow. You no longer have to describe the layout in fine detail in the prompt. What it does not do is remove the review step: you still read the result and correct it, exactly as you would a junior developer's first pass.
 
 > **A full text description of the wireframe**, including every label, the table contents and an English/Japanese label mapping, is in [Image Analysis - Designer Wireframe](../ImageAnalysis/designer-wireframe.md). It is worth reading even if Vision works for you, because it tells you exactly what the model was supposed to see.
 
@@ -244,6 +298,26 @@ Check the display in the browser and confirm the following work:
 - [ ] You can change a cat's information with Edit
 - [ ] You can delete a cat with Delete
 - [ ] You can check a cat's information with Details
+
+---
+
+### Step 6 completion checklist
+
+- [ ] `Controllers/CatsController.cs` exists with all five actions, each `async`
+- [ ] `Views/Cats/` contains Index, Details, Create, Edit and Delete
+- [ ] `_Layout.cshtml` has the sidebar navigation
+- [ ] The header shows the logo, or a deliberate emoji/icon substitute
+- [ ] `dotnet build` succeeds
+- [ ] The list screen shows all 5 seed cats
+- [ ] Create adds a cat and it appears in the list
+- [ ] Edit changes a cat and the change persists after a reload
+- [ ] Details shows one cat
+- [ ] Delete removes a cat, with a confirmation screen first
+- [ ] Row 3 (しろ) shows an empty Description cell without erroring
+
+That last box confirms the nullable `string?` from Step 5 survives all the way to the view.
+
+> **Before moving on:** if you deleted a cat while testing, you now have fewer than 5 rows. That is fine. If you would rather reset, delete `meowworld.db` and run `dotnet run` again; the automatic migration from Step 5 recreates it with the original seed data. Stop the app first or the file will be locked.
 
 ---
 
