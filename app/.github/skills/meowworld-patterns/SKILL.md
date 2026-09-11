@@ -22,7 +22,7 @@ MeowWorld/
 - .NET 8 / ASP.NET Core MVC
 - Entity Framework Core + SQLite
 - xUnit + Moq（テスト）
-- Bootstrap 5（UI）
+- 手書きの `site.css` によるエディトリアル UI
 
 ## 命名規約
 - エンティティ: PascalCase 単数形（`Cat`, `Favorite`）
