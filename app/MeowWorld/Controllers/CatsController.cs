@@ -85,7 +85,7 @@ public class CatsController(
     /// <summary>猫の情報を更新する</summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Breed,Description,IsFavorite,CreatedAt")] Cat cat)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Breed,Description,IsFavorite")] Cat cat)
     {
         if (id != cat.Id)
         {
@@ -99,7 +99,18 @@ public class CatsController(
 
         try
         {
-            context.Update(cat);
+            var existingCat = await context.Cats.FindAsync(id);
+            if (existingCat is null)
+            {
+                return NotFound();
+            }
+
+            existingCat.Name = cat.Name;
+            existingCat.Age = cat.Age;
+            existingCat.Breed = cat.Breed;
+            existingCat.Description = cat.Description;
+            existingCat.IsFavorite = cat.IsFavorite;
+
             await context.SaveChangesAsync();
 
             TempData["Flash"] = localizer["Msg_UpdateSuccess"].Value;
