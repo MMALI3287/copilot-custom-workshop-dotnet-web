@@ -1,5 +1,7 @@
 # まとめとふりかえり
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - Custom Agent](../9_CustomAgent/README_JA.md)
 
 お疲れさまでした！このワークショップで体験した GitHub Copilot の機能と、実務での活用ポイントを整理します。

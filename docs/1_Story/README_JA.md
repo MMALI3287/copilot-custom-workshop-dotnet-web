@@ -1,6 +1,8 @@
 <!-- filepath: docs_dotnet/1_Story/README_JA.md -->
 # モナの夢を実現する物語
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [次へ - はじめる前に](../2_BeforeGettingStarted/README_JA.md)
 
 ![Mona](https://user-images.githubusercontent.com/5396174/172204919-9ffb3993-1670-492e-a739-2efc25f9e8c3.gif)

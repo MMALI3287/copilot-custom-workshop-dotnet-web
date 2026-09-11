@@ -1,5 +1,7 @@
 # Token 節約とコンテキスト管理
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - MVC 実装 + Vision](../6_ImplementMVC/README_JA.md) | [次へ - ユニットテスト](../8_UnitTesting/README_JA.md)
 
 Copilot が正確な出力を返すかどうかは、**どのようなコンテキスト（文脈情報）を渡すか** に大きく左右されます。このステップでは、Step 5・6 で実装したコードを題材に、効率的にコンテキストを管理し、Token を節約しながら高品質な出力を得る方法を学びます。

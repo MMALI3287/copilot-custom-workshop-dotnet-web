@@ -1,5 +1,7 @@
 # はじめる前に
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - モナの夢を実現する物語](../1_Story/README_JA.md) | [次へ - プロジェクト作成](../3_CreateProject/README_JA.md)
 
 ## このワークショップで作るものの全体像

@@ -1,5 +1,7 @@
 # Custom Agent & Skill
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - ユニットテスト](../8_UnitTesting/README_JA.md) | [次へ - まとめ](../10_LessonsLearned/README_JA.md)
 
 このステップでは、**Custom Agent（`.agent.md`）** と **Skill（`SKILL.md`）** を作成し、プロジェクト専用の AI アシスタントを構築します。

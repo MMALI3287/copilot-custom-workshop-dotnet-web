@@ -1,5 +1,7 @@
 # DB レイヤー実装
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - Custom Instructions](../4_CustomInstructions/README_JA.md) | [次へ - MVC 実装 + Vision](../6_ImplementMVC/README_JA.md)
 
 このステップでは、Agent モードと Custom Instructions を活用して Entity Framework Core のモデル・DbContext・マイグレーションを実装します。

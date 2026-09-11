@@ -1,5 +1,7 @@
 # ユニットテスト
 
+🌐 **言語:** **日本語** | [English](README_EN.md)
+
 [前へ - Token 節約とコンテキスト管理](../7_TokenManagement/README_JA.md) | [次へ - Custom Agent](../9_CustomAgent/README_JA.md)
 
 このステップでは、Copilot の **`/tests` コマンド**と Agent モードを使ってユニットテストを生成・実行します。テストプロジェクトの作成から実装まで、Agent に一括で任せます。
