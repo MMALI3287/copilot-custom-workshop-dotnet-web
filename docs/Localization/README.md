@@ -190,10 +190,10 @@ Query string beats cookie, which beats the browser's preference. That ordering i
 
 ### Step 3: create the shared resource class and the `.resx` files
 
-`Resources/SharedResource.cs`:
+`SharedResource.cs`, **at the project root** (not inside `Resources/`):
 
 ```csharp
-namespace MeowWorld.Resources;
+namespace MeowWorld;
 
 /// <summary>
 /// 共有リソースの型マーカー。実装は持たない。
@@ -205,14 +205,35 @@ public class SharedResource
 
 This empty class exists only as a type argument. `IStringLocalizer<SharedResource>` uses it to locate `SharedResource.<culture>.resx`.
 
+> **❗ Put this class at the project root, not in `Resources/`.** This is the single easiest way to lose an hour here, and the error message does not point at the cause.
+>
+> The lookup name is built from **the marker type's namespace plus `ResourcesPath`**. Put the class in `Resources/` and its namespace becomes `MeowWorld.Resources`, which combines with `ResourcesPath = "Resources"` to look for:
+>
+> ```text
+> MeowWorld.Resources.Resources.SharedResource.ja.resources
+>                     ^^^^^^^^^ doubled
+> ```
+>
+> and throws `MissingManifestResourceException: The manifest '...' was not found`. The exception names the doubled path, so read it carefully; it is telling you exactly what is wrong.
+>
+> The correct arrangement:
+>
+> | Piece | Value |
+> |-------|-------|
+> | Marker type | `MeowWorld.SharedResource` (file at the project root) |
+> | `ResourcesPath` | `"Resources"` |
+> | Resource files | `Resources/SharedResource.ja.resx` |
+> | Resolved manifest name | `MeowWorld.Resources.SharedResource.ja.resources` |
+
 Then create the resource files:
 
 ```text
-Resources/
-├── SharedResource.cs       <- the marker class
-├── SharedResource.resx     <- the fallback (leave keys here in Japanese, or leave it empty)
-├── SharedResource.ja.resx  <- Japanese
-└── SharedResource.en.resx  <- English
+MeowWorld/
+├── SharedResource.cs           <- the marker class, AT THE PROJECT ROOT
+└── Resources/
+    ├── SharedResource.resx     <- the neutral fallback (use the Japanese values)
+    ├── SharedResource.ja.resx  <- Japanese
+    └── SharedResource.en.resx  <- English
 ```
 
 Three naming rules that will cost you an afternoon if you get them wrong:
@@ -439,14 +460,19 @@ document.querySelectorAll('[data-set-lang]').forEach(btn => {
     const lang = btn.dataset.setLang;
     document.documentElement.dataset.lang = lang;            // 即時反映
     document.documentElement.lang = lang;
-    fetch('/Culture/Set', {                                   // 次回以降のために保存
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `culture=${encodeURIComponent(lang)}`
-    });
+
+    // ❗ クッキーはクライアント側で必ず書くこと。
+    //    辞書をキャッシュしていると fetch を省略する場合があり、
+    //    サーバーの Set-Cookie に頼ると選択が保存されない。
+    const v = encodeURIComponent(`c=${lang}|uic=${lang}`);
+    document.cookie = `.AspNetCore.Culture=${v};path=/;max-age=31536000;samesite=lax`;
   });
 });
 ```
+
+> **The caching trap.** If you cache the fetched dictionary per language (and you should, it avoids a request per toggle), then the second time a visitor selects a language you already have, your code skips the network call entirely. If the cookie was only ever set by that call's `Set-Cookie` response header, it is now stale, and the next full page load silently reverts to the previous language. The symptom looks like "the toggle works but does not stick", and it only appears after switching back and forth.
+>
+> Write the cookie in JavaScript on **every** switch, as above. It costs nothing and removes the dependency entirely. This requires `HttpOnly = false` on the cookie, which is correct here: a language preference is not a secret, and the page needs to read and write it.
 
 Be clear-eyed about the costs before choosing this:
 

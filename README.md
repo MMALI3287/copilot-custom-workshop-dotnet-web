@@ -31,5 +31,6 @@
 | [画像の詳細分析](docs/ImageAnalysis/README.md) | 教材で使用する全画像のテキスト仕様書（英語） |
 | [日英切り替え（JA/EN トグル）](docs/Localization/README.md) | MeowWorld に言語切り替えを追加する手順（英語） |
 | [文字列カタログ](docs/Localization/string-catalog.md) | UI 文字列のリソースキーと日英対訳表 |
+| [リファレンス実装](reference-implementation/README.md) | 日英トグルを含む MeowWorld の完成版（動作確認済み・英語） |
 
 > **Note:** 本ワークショップの英語版は [README_EN.md](README_EN.md) にあります。各ステップの英訳は同じフォルダーの `README_EN.md` です。

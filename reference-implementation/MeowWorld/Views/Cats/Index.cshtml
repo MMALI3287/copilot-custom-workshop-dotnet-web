@@ -1,0 +1,66 @@
+@model IEnumerable<Cat>
+@{
+    ViewData["Title"] = L["Page_CatList_Title"].Value;
+    ViewData["Active"] = "Cats";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h1 class="h2 m-0" data-i18n="Page_CatList_Title">@L["Page_CatList_Title"]</h1>
+    <a asp-action="Create" class="btn btn-primary" data-i18n="Action_CreateCat">@L["Action_CreateCat"]</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info" data-i18n="Msg_NoCats">@L["Msg_NoCats"]</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th data-i18n="Col_Id">@L["Col_Id"]</th>
+                    <th data-i18n="Col_IsFavorite">@L["Col_IsFavorite"]</th>
+                    <th data-i18n="Col_Name">@L["Col_Name"]</th>
+                    <th data-i18n="Col_Age">@L["Col_Age"]</th>
+                    <th data-i18n="Col_Breed">@L["Col_Breed"]</th>
+                    <th data-i18n="Col_Description">@L["Col_Description"]</th>
+                    <th data-i18n="Col_Actions">@L["Col_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var cat in Model)
+            {
+                <tr>
+                    <td>@cat.Id</td>
+                    <td>
+                        @* お気に入りの切り替え。データではなく操作なので翻訳対象 *@
+                        <form asp-action="ToggleFavorite" asp-route-id="@cat.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit"
+                                    class="favorite-toggle @(cat.IsFavorite ? "favorite-on" : "favorite-off")"
+                                    data-i18n-title="@(cat.IsFavorite ? "Action_RemoveFavorite" : "Action_AddFavorite")"
+                                    title="@(cat.IsFavorite ? L["Action_RemoveFavorite"] : L["Action_AddFavorite"])">
+                                @(cat.IsFavorite ? "★" : "☆")
+                            </button>
+                        </form>
+                    </td>
+                    @* 以下 3 列は利用者データのため翻訳しない *@
+                    <td>@cat.Name</td>
+                    <td>@cat.Age</td>
+                    <td>@cat.Breed</td>
+                    <td>@cat.Description</td>
+                    <td class="text-nowrap">
+                        <a asp-action="Details" asp-route-id="@cat.Id"
+                           class="btn btn-sm btn-info" data-i18n="Action_Details">@L["Action_Details"]</a>
+                        <a asp-action="Edit" asp-route-id="@cat.Id"
+                           class="btn btn-sm btn-warning" data-i18n="Action_Edit">@L["Action_Edit"]</a>
+                        <a asp-action="Delete" asp-route-id="@cat.Id"
+                           class="btn btn-sm btn-danger" data-i18n="Action_Delete">@L["Action_Delete"]</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
