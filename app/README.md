@@ -1,15 +1,11 @@
-# MeowWorld - Reference Implementation
+# MeowWorld
 
-A complete, working build of the application the workshop teaches you to create, plus the
-Japanese/English language toggle described in [docs/Localization](../docs/Localization/README.md).
+The MeowWorld application: an ASP.NET Core MVC + SQLite cat register with an editorial
+front page and an instant Japanese/English toggle.
 
-**This is a reference, not a substitute for doing the workshop.** The point of the workshop is
-watching Copilot build this. Read this code when you want to compare your result against a
-finished one, or when a step leaves you stuck.
-
-> **Why is this not in `app/`?** `app/` is gitignored on purpose: it is the scratch workspace each
-> participant creates and fills in themselves. Committing a finished app there would both collide
-> with participants' own work and defeat the exercise. This folder sits alongside it instead.
+Built alongside the workshop in [`docs/`](../docs/), which teaches you to create it with GitHub
+Copilot. The localization design is documented in
+[docs/Localization](../docs/Localization/README.md).
 
 ---
 
@@ -17,7 +13,7 @@ finished one, or when a step leaves you stuck.
 
 ```bash
 git clone https://github.com/MMALI3287/copilot-custom-workshop-dotnet-web.git
-cd copilot-custom-workshop-dotnet-web/reference-implementation/MeowWorld
+cd copilot-custom-workshop-dotnet-web/app/MeowWorld
 dotnet run
 ```
 
@@ -72,7 +68,7 @@ The application code itself needs no changes.
 ### 1. Restore and build
 
 ```bash
-cd reference-implementation
+cd app
 dotnet build
 ```
 
@@ -129,7 +125,7 @@ Your port will differ. Open whichever URL it prints.
 ## What is in here
 
 ```text
-reference-implementation/
+app/
 ├── MeowWorld/                      # the web application
 │   ├── Controllers/
 │   │   ├── CatsController.cs       # full CRUD + favourite toggle
@@ -152,6 +148,27 @@ The `.github/` folder is the finished version of what you build across Steps 4 a
 folder in VS Code or Visual Studio and Copilot picks it up automatically.
 
 ---
+
+## The design
+
+A warm editorial layout rather than an admin dashboard: a serif display face with an italic
+accent, generous whitespace, and a restrained palette of paper, forest green, clay and gold.
+
+| Piece | Notes |
+|-------|-------|
+| Display type | Instrument Serif (Latin), Shippori Mincho (Japanese) |
+| Body type | Inter, falling back to the system UI stack |
+| Hero artwork | `wwwroot/images/cat-plate.svg`, drawn for this project. No photo dependency, ~8 KB |
+| Palette | `--paper #FAF7F1`, `--ink #16140F`, `--clay #B4502C`, `--forest #1B3A32`, `--gold #D8C87A` |
+
+Webfonts come from Google Fonts with a full fallback stack, so the page stays legible if that
+request is blocked. Japanese gets its own serif stack, because a Latin display face has no
+Japanese glyphs and would otherwise fall back to a mismatched gothic.
+
+Type scale, letter-spacing and line-height all change under `html[lang="ja"]`. Japanese needs
+looser line-height and no uppercase transforms; applying the Latin settings to Japanese looks
+wrong, and this is the main reason the two languages are styled separately rather than sharing
+one stylesheet.
 
 ## How the language toggle works
 

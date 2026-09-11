@@ -50,186 +50,294 @@
     <value>MeowWorld</value>
   </data>
   <data name="App_Tagline" xml:space="preserve">
-    <value>Cat Management System</value>
+    <value>猫管理システム</value>
   </data>
   <data name="App_Title" xml:space="preserve">
-    <value>MeowWorld Cat Management System</value>
+    <value>MeowWorld 猫管理システム</value>
   </data>
   <data name="Logo_Alt" xml:space="preserve">
-    <value>MeowWorld Cat Management System logo</value>
+    <value>MeowWorld 猫管理システムのロゴ</value>
   </data>
   <data name="Nav_Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>ダッシュボード</value>
   </data>
   <data name="Nav_CatList" xml:space="preserve">
-    <value>Cat List</value>
+    <value>猫一覧</value>
   </data>
   <data name="Nav_RegisterCat" xml:space="preserve">
-    <value>Register a New Cat</value>
+    <value>新しい猫を登録</value>
   </data>
   <data name="Nav_Categories" xml:space="preserve">
-    <value>Categories</value>
+    <value>カテゴリ</value>
   </data>
   <data name="Nav_HealthRecords" xml:space="preserve">
-    <value>Health Records</value>
+    <value>健康記録</value>
   </data>
   <data name="Nav_Adoption" xml:space="preserve">
-    <value>Adoption</value>
+    <value>里親募集</value>
   </data>
   <data name="Nav_Schedule" xml:space="preserve">
-    <value>Schedule</value>
+    <value>スケジュール</value>
   </data>
   <data name="Nav_Reports" xml:space="preserve">
-    <value>Reports</value>
+    <value>レポート</value>
   </data>
   <data name="Nav_UserManagement" xml:space="preserve">
-    <value>User Management</value>
+    <value>ユーザー管理</value>
   </data>
   <data name="Nav_Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>設定</value>
   </data>
   <data name="Nav_Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>プライバシー</value>
   </data>
   <data name="Page_Home_Title" xml:space="preserve">
-    <value>Home</value>
+    <value>ホーム</value>
   </data>
   <data name="Page_Home_Lead" xml:space="preserve">
-    <value>Welcome to the community where cat lovers from all over the world come together.</value>
+    <value>世界中の猫好きが集まるコミュニティへようこそ。</value>
   </data>
   <data name="Page_CatList_Title" xml:space="preserve">
-    <value>Cat List</value>
+    <value>猫一覧</value>
   </data>
   <data name="Page_CatDetails_Title" xml:space="preserve">
-    <value>Cat Details</value>
+    <value>猫の詳細</value>
   </data>
   <data name="Page_CatCreate_Title" xml:space="preserve">
-    <value>Register a New Cat</value>
+    <value>新しい猫を登録</value>
   </data>
   <data name="Page_CatEdit_Title" xml:space="preserve">
-    <value>Edit Cat</value>
+    <value>猫の情報を編集</value>
   </data>
   <data name="Page_CatDelete_Title" xml:space="preserve">
-    <value>Delete Cat</value>
+    <value>猫の削除</value>
   </data>
   <data name="Page_Privacy_Title" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>プライバシーポリシー</value>
   </data>
   <data name="Col_Id" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="Col_Name" xml:space="preserve">
-    <value>Name</value>
+    <value>名前</value>
   </data>
   <data name="Col_Age" xml:space="preserve">
-    <value>Age</value>
+    <value>年齢</value>
   </data>
   <data name="Col_Breed" xml:space="preserve">
-    <value>Breed</value>
+    <value>品種</value>
   </data>
   <data name="Col_Description" xml:space="preserve">
-    <value>Description</value>
+    <value>説明</value>
   </data>
   <data name="Col_CreatedAt" xml:space="preserve">
-    <value>Registered</value>
+    <value>登録日時</value>
   </data>
   <data name="Col_Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>操作</value>
   </data>
   <data name="Col_IsFavorite" xml:space="preserve">
-    <value>Favourite</value>
+    <value>お気に入り</value>
   </data>
   <data name="Action_Details" xml:space="preserve">
-    <value>Details</value>
+    <value>詳細</value>
   </data>
   <data name="Action_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>編集</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>削除</value>
   </data>
   <data name="Action_CreateCat" xml:space="preserve">
-    <value>Register a New Cat</value>
+    <value>新しい猫を登録</value>
   </data>
   <data name="Action_Save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="Action_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>キャンセル</value>
   </data>
   <data name="Action_BackToList" xml:space="preserve">
-    <value>Back to List</value>
+    <value>一覧に戻る</value>
   </data>
   <data name="Action_ConfirmDelete" xml:space="preserve">
-    <value>Delete</value>
+    <value>削除する</value>
   </data>
   <data name="Action_AddFavorite" xml:space="preserve">
-    <value>Add to Favourites</value>
+    <value>お気に入りに追加</value>
   </data>
   <data name="Action_RemoveFavorite" xml:space="preserve">
-    <value>Remove from Favourites</value>
+    <value>お気に入りから削除</value>
   </data>
   <data name="Msg_NoCats" xml:space="preserve">
-    <value>No cats have been registered.</value>
+    <value>登録されている猫はいません。</value>
   </data>
   <data name="Msg_DeleteConfirm" xml:space="preserve">
-    <value>Are you sure you want to delete this cat?</value>
+    <value>この猫を削除してもよろしいですか？</value>
   </data>
   <data name="Msg_DeleteIrreversible" xml:space="preserve">
-    <value>This action cannot be undone.</value>
+    <value>この操作は取り消せません。</value>
   </data>
   <data name="Msg_CreateSuccess" xml:space="preserve">
-    <value>The cat has been registered.</value>
+    <value>猫を登録しました。</value>
   </data>
   <data name="Msg_UpdateSuccess" xml:space="preserve">
-    <value>The cat's information has been updated.</value>
+    <value>猫の情報を更新しました。</value>
   </data>
   <data name="Msg_DeleteSuccess" xml:space="preserve">
-    <value>The cat has been deleted.</value>
+    <value>猫を削除しました。</value>
   </data>
   <data name="Msg_NotFound" xml:space="preserve">
-    <value>The specified cat was not found.</value>
+    <value>指定された猫が見つかりません。</value>
   </data>
   <data name="Msg_Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>はい</value>
   </data>
   <data name="Msg_No" xml:space="preserve">
-    <value>No</value>
+    <value>いいえ</value>
   </data>
   <data name="Validation_Name_Required" xml:space="preserve">
-    <value>The name is required.</value>
+    <value>名前は必須です。</value>
   </data>
   <data name="Validation_Name_MaxLength" xml:space="preserve">
-    <value>The name must be 50 characters or fewer.</value>
+    <value>名前は50文字以内で入力してください。</value>
   </data>
   <data name="Validation_Age_Range" xml:space="preserve">
-    <value>The age must be between 0 and 30.</value>
+    <value>年齢は0以上30以下で入力してください。</value>
   </data>
   <data name="Validation_Breed_Required" xml:space="preserve">
-    <value>The breed is required.</value>
+    <value>品種は必須です。</value>
   </data>
   <data name="Validation_Breed_MaxLength" xml:space="preserve">
-    <value>The breed must be 50 characters or fewer.</value>
+    <value>品種は50文字以内で入力してください。</value>
   </data>
   <data name="Validation_Description_MaxLength" xml:space="preserve">
-    <value>The description must be 500 characters or fewer.</value>
+    <value>説明は500文字以内で入力してください。</value>
   </data>
   <data name="Lang_SwitcherLabel" xml:space="preserve">
-    <value>Display language</value>
+    <value>表示言語</value>
   </data>
   <data name="Validation_ValueIsInvalid" xml:space="preserve">
-    <value>The value '{0}' is invalid.</value>
+    <value>入力された値「{0}」は無効です。</value>
   </data>
   <data name="Validation_ValueMustNotBeNull" xml:space="preserve">
-    <value>The value '{0}' must not be null.</value>
+    <value>値「{0}」は必須です。</value>
   </data>
   <data name="Validation_MissingRequiredValue" xml:space="preserve">
-    <value>A value for '{0}' is required.</value>
+    <value>{0} は必須です。</value>
   </data>
   <data name="Validation_AttemptedValueIsInvalid" xml:space="preserve">
-    <value>The value '{0}' is not valid for {1}.</value>
+    <value>「{0}」は {1} の値として無効です。</value>
   </data>
   <data name="Validation_ValueMustBeANumber" xml:space="preserve">
-    <value>The {0} field must be a number.</value>
+    <value>{0} には数値を入力してください。</value>
+  </data>
+  <data name="Home_Eyebrow" xml:space="preserve">
+    <value>猫と暮らす人のためのスタジオ</value>
+  </data>
+  <data name="Home_Hero_1" xml:space="preserve">
+    <value>すべての猫に</value>
+  </data>
+  <data name="Home_Hero_2" xml:space="preserve">
+    <value>物語がある</value>
+  </data>
+  <data name="Home_Hero_Accent" xml:space="preserve">
+    <value>物語。</value>
+  </data>
+  <data name="Home_Hero_Lead" xml:space="preserve">
+    <value>お気に入りの猫たちの、小さくて大切な記録を静かに残す場所。</value>
+  </data>
+  <data name="Home_CTA_Primary" xml:space="preserve">
+    <value>コレクションを見る</value>
+  </data>
+  <data name="Home_CTA_Secondary" xml:space="preserve">
+    <value>このサイトについて</value>
+  </data>
+  <data name="Home_Note" xml:space="preserve">
+    <value>細部に気づく人のために。</value>
+  </data>
+  <data name="Home_Stat1_N" xml:space="preserve">
+    <value>01</value>
+  </data>
+  <data name="Home_Stat1_T" xml:space="preserve">
+    <value>やわらかな</value>
+  </data>
+  <data name="Home_Stat1_B" xml:space="preserve">
+    <value>記録のかたち。</value>
+  </data>
+  <data name="Home_Stat2_T" xml:space="preserve">
+    <value>猫たちの物語が</value>
+  </data>
+  <data name="Home_Stat2_B" xml:space="preserve">
+    <value>待っています</value>
+  </data>
+  <data name="Home_Stat3_N" xml:space="preserve">
+    <value>∞</value>
+  </data>
+  <data name="Home_Stat3_T" xml:space="preserve">
+    <value>新しい章のための</value>
+  </data>
+  <data name="Home_Stat3_B" xml:space="preserve">
+    <value>余白</value>
+  </data>
+  <data name="Home_Stat4_T" xml:space="preserve">
+    <value>とても大切な</value>
+  </data>
+  <data name="Home_Stat4_B" xml:space="preserve">
+    <value>細部のために。</value>
+  </data>
+  <data name="Home_Preview_Eyebrow" xml:space="preserve">
+    <value>すこしだけ紹介</value>
+  </data>
+  <data name="Home_Preview_1" xml:space="preserve">
+    <value>この街の</value>
+  </data>
+  <data name="Home_Preview_Accent" xml:space="preserve">
+    <value>仲間たち。</value>
+  </data>
+  <data name="Home_Footer_Left" xml:space="preserve">
+    <value>MEOWWORLD / 猫管理スタジオ</value>
+  </data>
+  <data name="Home_Footer_Right" xml:space="preserve">
+    <value>2026年、ていねいに制作</value>
+  </data>
+  <data name="Cats_Eyebrow" xml:space="preserve">
+    <value>コレクション</value>
+  </data>
+  <data name="Cats_Heading_1" xml:space="preserve">
+    <value>登録されている</value>
+  </data>
+  <data name="Cats_Heading_Accent" xml:space="preserve">
+    <value>猫たち。</value>
+  </data>
+  <data name="Cats_Count_Suffix" xml:space="preserve">
+    <value>匹</value>
+  </data>
+  <data name="Cats_ViewGrid" xml:space="preserve">
+    <value>カード</value>
+  </data>
+  <data name="Cats_ViewTable" xml:space="preserve">
+    <value>一覧表</value>
+  </data>
+  <data name="Nav_Collection" xml:space="preserve">
+    <value>コレクション</value>
+  </data>
+  <data name="Nav_OurStory" xml:space="preserve">
+    <value>このサイト</value>
+  </data>
+  <data name="Nav_EnterStudio" xml:space="preserve">
+    <value>スタジオへ</value>
+  </data>
+  <data name="Years_Suffix" xml:space="preserve">
+    <value>歳</value>
+  </data>
+  <data name="Form_Eyebrow" xml:space="preserve">
+    <value>スタジオ</value>
+  </data>
+  <data name="Detail_Eyebrow" xml:space="preserve">
+    <value>猫の記録</value>
+  </data>
+  <data name="Since" xml:space="preserve">
+    <value>SINCE 2026</value>
   </data>
 </root>

@@ -1,18 +1,28 @@
 using System.Diagnostics;
+using MeowWorld.Data;
 using MeowWorld.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeowWorld.Controllers;
 
 /// <summary>
 /// トップページと共通ページを担当するコントローラー
 /// </summary>
-public class HomeController(ILogger<HomeController> logger) : Controller
+public class HomeController(AppDbContext context, ILogger<HomeController> logger) : Controller
 {
-    /// <summary>ダッシュボード（トップページ）</summary>
-    public IActionResult Index() => View();
+    /// <summary>トップページ。統計とプレビュー用に猫の一覧を渡す</summary>
+    public async Task<IActionResult> Index()
+    {
+        var cats = await context.Cats
+            .OrderBy(c => c.Id)
+            .AsNoTracking()
+            .ToListAsync();
 
-    /// <summary>プライバシーポリシー</summary>
+        return View(cats);
+    }
+
+    /// <summary>このサイトについて</summary>
     public IActionResult Privacy() => View();
 
     /// <summary>エラーページ</summary>

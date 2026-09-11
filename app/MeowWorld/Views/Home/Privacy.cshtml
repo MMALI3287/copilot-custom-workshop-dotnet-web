@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = L["Nav_OurStory"].Value;
+    ViewData["Active"] = "Story";
+}
+<div class="shell section">
+    <p class="eyebrow" data-i18n="Nav_OurStory">@L["Nav_OurStory"]</p>
+    <h1 class="display" data-i18n="Page_Privacy_Title">@L["Page_Privacy_Title"]</h1>
+    <p class="lead" data-i18n="Home_Hero_Lead">@L["Home_Hero_Lead"]</p>
+
+    <div style="margin-top:3rem">
+        <a class="btn btn--quiet" asp-controller="Cats" asp-action="Index">
+            <span data-i18n="Action_BackToList">@L["Action_BackToList"]</span>
+        </a>
+    </div>
+</div>

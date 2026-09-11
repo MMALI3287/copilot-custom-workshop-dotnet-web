@@ -1,0 +1,58 @@
+@model Cat
+@{
+    ViewData["Title"] = L["Page_CatCreate_Title"].Value;
+    ViewData["Active"] = "Create";
+}
+
+<div class="shell section--tight">
+    <p class="eyebrow" data-i18n="Form_Eyebrow">@L["Form_Eyebrow"]</p>
+    <h1 class="display" style="margin-bottom:2.5rem" data-i18n="Page_CatCreate_Title">@L["Page_CatCreate_Title"]</h1>
+
+    <div class="panel">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="field">
+                <label asp-for="Name" data-i18n="Col_Name"></label>
+                <input asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem">
+                <div class="field">
+                    <label asp-for="Age" data-i18n="Col_Age"></label>
+                    <input asp-for="Age" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Breed" data-i18n="Col_Breed"></label>
+                    <input asp-for="Breed" />
+                    <span asp-validation-for="Breed" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label asp-for="Description" data-i18n="Col_Description"></label>
+                <textarea asp-for="Description" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="field field--check">
+                <input asp-for="IsFavorite" />
+                <label asp-for="IsFavorite" data-i18n="Col_IsFavorite"></label>
+            </div>
+
+            <div class="formactions">
+                <button type="submit" class="btn">
+                    <span data-i18n="Action_Save">@L["Action_Save"]</span>
+                    <span class="btn__arrow" aria-hidden="true">→</span>
+                </button>
+                <a class="btn btn--quiet" asp-action="Index" data-i18n="Action_Cancel">@L["Action_Cancel"]</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

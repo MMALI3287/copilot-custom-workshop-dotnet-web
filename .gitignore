@@ -1,4 +1,11 @@
 .DS_Store
 .vs
 .playwright-mcp/
-app/
+
+# app/ holds the working MeowWorld application in this fork.
+# Build output and the local database stay ignored:
+app/**/bin/
+app/**/obj/
+app/**/*.db
+app/**/*.db-shm
+app/**/*.db-wal

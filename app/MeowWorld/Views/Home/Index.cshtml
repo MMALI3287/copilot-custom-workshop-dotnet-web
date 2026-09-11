@@ -1,0 +1,130 @@
+@model IEnumerable<Cat>
+@{
+    ViewData["Title"] = L["Page_Home_Title"].Value;
+    ViewData["Active"] = "Home";
+
+    // プレビューに出す最大 3 匹。お気に入りを優先する
+    var preview = Model.OrderByDescending(c => c.IsFavorite).ThenBy(c => c.Id).Take(3).ToList();
+    var palette = new[] { "card--ink", "card--clay", "card--gold" };
+}
+
+<div class="shell">
+
+    @* ---------- ヒーロー ---------- *@
+    <section class="hero">
+        <div>
+            <p class="eyebrow" data-i18n="Home_Eyebrow">@L["Home_Eyebrow"]</p>
+
+            <h1 class="display">
+                <span data-i18n="Home_Hero_1">@L["Home_Hero_1"]</span><br />
+                <span data-i18n="Home_Hero_2">@L["Home_Hero_2"]</span>
+                <em data-i18n="Home_Hero_Accent">@L["Home_Hero_Accent"]</em>
+            </h1>
+
+            <p class="lead" data-i18n="Home_Hero_Lead">@L["Home_Hero_Lead"]</p>
+
+            <div class="hero__actions">
+                <a class="btn" asp-controller="Cats" asp-action="Index">
+                    <span data-i18n="Home_CTA_Primary">@L["Home_CTA_Primary"]</span>
+                    <span class="btn__arrow" aria-hidden="true">→</span>
+                </a>
+                <a class="btn btn--ghost" asp-controller="Home" asp-action="Privacy">
+                    <span data-i18n="Home_CTA_Secondary">@L["Home_CTA_Secondary"]</span>
+                    <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+
+            <p class="hero__note" data-i18n="Home_Note">@L["Home_Note"]</p>
+        </div>
+
+        <div class="hero__figure">
+            <div class="seal" aria-hidden="true">
+                <span>
+                    <b>MW</b>
+                    <small>@L["Since"]</small>
+                </span>
+            </div>
+
+            <div class="hero__frame hero__frame--plate">
+                @* 写真素材を同梱していないため、SVG のイラストを版面として使用している *@
+                <img class="plate__art" src="~/images/cat-plate.svg" alt="" aria-hidden="true" />
+                @if (preview.Count > 0)
+                {
+                    <span class="hero__caption">01 / @preview[0].Name</span>
+                }
+            </div>
+        </div>
+    </section>
+
+    @* ---------- 統計の帯 ---------- *@
+    <section class="stats">
+        <div class="stat">
+            <span class="stat__n" data-i18n="Home_Stat1_N">@L["Home_Stat1_N"]</span>
+            <span class="stat__t">
+                <b data-i18n="Home_Stat1_T">@L["Home_Stat1_T"]</b>
+                <span data-i18n="Home_Stat1_B">@L["Home_Stat1_B"]</span>
+            </span>
+        </div>
+        <div class="stat">
+            <span class="stat__n">@Model.Count().ToString("00")</span>
+            <span class="stat__t">
+                <b data-i18n="Home_Stat2_T">@L["Home_Stat2_T"]</b>
+                <span data-i18n="Home_Stat2_B">@L["Home_Stat2_B"]</span>
+            </span>
+        </div>
+        <div class="stat">
+            <span class="stat__n" data-i18n="Home_Stat3_N">@L["Home_Stat3_N"]</span>
+            <span class="stat__t">
+                <b data-i18n="Home_Stat3_T">@L["Home_Stat3_T"]</b>
+                <span data-i18n="Home_Stat3_B">@L["Home_Stat3_B"]</span>
+            </span>
+        </div>
+        <div class="stat">
+            <span class="stat__n" aria-hidden="true">&ldquo;</span>
+            <span class="stat__t">
+                <b data-i18n="Home_Stat4_T">@L["Home_Stat4_T"]</b>
+                <span data-i18n="Home_Stat4_B">@L["Home_Stat4_B"]</span>
+            </span>
+        </div>
+    </section>
+
+    @* ---------- プレビュー ---------- *@
+    <section class="section preview">
+        <div class="preview__aside">
+            <div>
+                <p class="eyebrow eyebrow--plain" data-i18n="Home_Preview_Eyebrow">@L["Home_Preview_Eyebrow"]</p>
+                <h2 class="display">
+                    <span data-i18n="Home_Preview_1">@L["Home_Preview_1"]</span><br />
+                    <em data-i18n="Home_Preview_Accent">@L["Home_Preview_Accent"]</em>
+                </h2>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:1.25rem; margin-top:auto">
+                <a class="arrowlink" asp-controller="Cats" asp-action="Index"
+                   aria-label="@L["Nav_Collection"]" data-i18n-title="Nav_Collection">
+                    <span aria-hidden="true">→</span>
+                </a>
+                <a class="btn btn--ghost" asp-controller="Cats" asp-action="Index"
+                   data-i18n="Home_CTA_Primary">@L["Home_CTA_Primary"]</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="cards">
+                @for (var i = 0; i < preview.Count; i++)
+                {
+                    var cat = preview[i];
+                    var cls = palette[i % palette.Length];
+                    var wide = i == 2 ? " card--wide" : "";
+                    <a class="card @cls@wide" asp-controller="Cats" asp-action="Details" asp-route-id="@cat.Id">
+                        <span class="card__n">@((i + 1).ToString("00"))</span>
+                        <span>
+                            <h3 class="card__name">@cat.Name</h3>
+                            <p class="card__meta">@cat.Breed / @cat.Age @L["Years_Suffix"]</p>
+                        </span>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+</div>
