@@ -162,10 +162,19 @@ public class CatsController(
             return NotFound();
         }
 
-        context.Cats.Remove(cat);
-        await context.SaveChangesAsync();
+        try
+        {
+            context.Cats.Remove(cat);
+            await context.SaveChangesAsync();
 
-        TempData["FlashKey"] = "Msg_DeleteSuccess";
+            TempData["FlashKey"] = "Msg_DeleteSuccess";
+        }
+        catch (DbUpdateException ex)
+        {
+            logger.LogError(ex, "猫の削除に失敗しました。Id={Id}", id);
+            TempData["FlashKey"] = "Msg_SaveFailed";
+        }
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -174,14 +183,25 @@ public class CatsController(
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ToggleFavorite(int id)
     {
-        var cat = await context.Cats.FindAsync(id);
-        if (cat is null)
+        try
         {
-            return NotFound();
-        }
+            // ❗ 読み取り→反転→保存にすると、同時に 2 件 POST された場合に
+            //    両方が同じ旧値を読み、2 回の切り替えが 1 回分にしかならない。
+            //    DB 側で反転させて操作を原子的にする。
+            var affected = await context.Cats
+                .Where(c => c.Id == id)
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.IsFavorite, c => !c.IsFavorite));
 
-        cat.IsFavorite = !cat.IsFavorite;
-        await context.SaveChangesAsync();
+            if (affected == 0)
+            {
+                return NotFound();
+            }
+        }
+        catch (DbUpdateException ex)
+        {
+            logger.LogError(ex, "お気に入りの切り替えに失敗しました。Id={Id}", id);
+            TempData["FlashKey"] = "Msg_SaveFailed";
+        }
 
         return RedirectToAction(nameof(Index));
     }

@@ -101,7 +101,7 @@
 
             <div style="display:flex; align-items:center; gap:1.25rem; margin-top:auto">
                 <a class="arrowlink" asp-controller="Cats" asp-action="Index"
-                   aria-label="@L["Nav_Collection"]" data-i18n-title="Nav_Collection">
+                   aria-label="@L["Nav_Collection"]" data-i18n-aria-label="Nav_Collection">
                     <span aria-hidden="true">→</span>
                 </a>
                 <a class="btn btn--ghost" asp-controller="Cats" asp-action="Index"
@@ -118,10 +118,11 @@
                     var wide = i == 2 ? " card--wide" : "";
                     <a class="card @cls@wide" asp-controller="Cats" asp-action="Details" asp-route-id="@cat.Id">
                         <span class="card__n">@((i + 1).ToString("00"))</span>
-                        <span>
+                        @* span は phrasing content なのでブロック要素を包めない *@
+                        <div>
                             <h3 class="card__name">@cat.Name</h3>
                             <p class="card__meta">@cat.Breed / @cat.Age <span data-i18n="Years_Suffix">@L["Years_Suffix"]</span></p>
-                        </span>
+                        </div>
                     </a>
                 }
             </div>

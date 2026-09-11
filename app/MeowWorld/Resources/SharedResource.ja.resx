@@ -239,10 +239,10 @@
     <value>すべての猫に</value>
   </data>
   <data name="Home_Hero_2" xml:space="preserve">
-    <value>物語がある</value>
+    <value>物語が</value>
   </data>
   <data name="Home_Hero_Accent" xml:space="preserve">
-    <value>物語。</value>
+    <value>あります。</value>
   </data>
   <data name="Home_Hero_Lead" xml:space="preserve">
     <value>お気に入りの猫たちの、小さくて大切な記録を静かに残す場所。</value>

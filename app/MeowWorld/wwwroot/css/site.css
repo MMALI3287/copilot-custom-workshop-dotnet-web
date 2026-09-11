@@ -11,7 +11,7 @@
   --paper-deep:  #E8DFCF;
   --ink:         #16140F;
   --ink-soft:    #5A544A;
-  --ink-faint:   #918A7D;
+  --ink-faint:   #6B6455;   /* 4.5:1 以上を確保（旧 #918A7D は 3.2:1 で AA 未達） */
   --line:        #E0D8C8;
 
   /* アクセント */
@@ -177,10 +177,14 @@ html[lang="ja"] .title { line-height: 1.4; letter-spacing: 0; }
   letter-spacing: -.01em;
 }
 
+/* ❗ logo.png はアルファチャンネルを持たない（背景が不透明な白）。
+   濃色の地に置くと白い矩形が見えてしまうため、地を紙色にして
+   線画だけが浮かぶようにする。 */
 .brand__mark {
   width: 34px; height: 34px;
   border-radius: 50%;
-  background: var(--forest);
+  background: var(--paper);
+  border: 1px solid var(--line);
   display: grid;
   place-items: center;
   overflow: hidden;

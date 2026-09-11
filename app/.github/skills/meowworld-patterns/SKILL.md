@@ -9,7 +9,8 @@ description: "MeowWorld プロジェクトのアーキテクチャパターン�
 MeowWorld/
 ├── Controllers/       ← コントローラー（{Entity}Controller.cs）
 ├── Models/            ← エンティティ・ビューモデル
-├── Data/              ← DbContext・マイグレーション
+├── Data/              ← DbContext
+├── Migrations/        ← EF Core マイグレーション
 ├── Resources/         ← 多言語リソース（.resx）
 ├── Views/
 │   ├── {Controller}/  ← コントローラー対応ビュー

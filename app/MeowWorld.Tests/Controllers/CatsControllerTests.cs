@@ -267,17 +267,23 @@ public class CatsControllerTests
         await context.SaveChangesAsync();
         var controller = CreateController(context);
 
+        // ❗ ExecuteUpdateAsync は DB を直接更新し、変更追跡を経由しない。
+        //    追跡済みエンティティは古い値のままなので、AsNoTracking で読み直す。
+        //    Web アプリではリクエストごとに DbContext が作られるため問題にならない。
+        async Task<bool> ReadFavoriteAsync() =>
+            (await context.Cats.AsNoTracking().FirstAsync(c => c.Id == cat.Id)).IsFavorite;
+
         // Act
         await controller.ToggleFavorite(cat.Id);
 
         // Assert
-        Assert.True((await context.Cats.FirstAsync(c => c.Id == cat.Id)).IsFavorite);
+        Assert.True(await ReadFavoriteAsync());
 
         // Act: もう一度押すと元に戻る
         await controller.ToggleFavorite(cat.Id);
 
         // Assert
-        Assert.False((await context.Cats.FirstAsync(c => c.Id == cat.Id)).IsFavorite);
+        Assert.False(await ReadFavoriteAsync());
     }
 
     private sealed class NullTempDataProvider : ITempDataProvider

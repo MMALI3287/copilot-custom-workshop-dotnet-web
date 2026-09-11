@@ -151,7 +151,7 @@ folder in VS Code or Visual Studio and Copilot picks it up automatically.
 
 ## The design
 
-A warm editorial layout rather than an admin dashboard: a serif display face with an italic
+A warm editorial layout rather than an admin editorial landing page: a serif display face with an italic
 accent, generous whitespace, and a restrained palette of paper, forest green, clay and gold.
 
 | Piece | Notes |
@@ -249,8 +249,8 @@ Being explicit about what this does **not** do, since it is a teaching artefact:
 - **No authentication.** Anyone reaching the app can edit and delete any cat
 - **Migrations run automatically at startup.** Convenient for a demo, wrong for production, where
   migrations belong in a reviewed deployment step
-- **Sidebar links past "Register a New Cat" are inert.** They exist because the wireframe shows
-  them; nothing is behind them
+- **The header links cover only what exists.** The earlier wireframe showed a ten-item sidebar;
+  the redesign drops the items with nothing behind them rather than showing dead links
 - **Breeds are free text**, so the same breed can be spelled several ways. The lookup-table
   approach is sketched in the localization guide
 - **No pagination.** Fine for 5 cats, not for 5,000
