@@ -54,10 +54,13 @@
                             @* 操作なので翻訳対象。データではない *@
                             <form asp-action="ToggleFavorite" asp-route-id="@cat.Id" method="post" style="display:inline">
                                 @Html.AntiForgeryToken()
+                                @{ var favKey = cat.IsFavorite ? "Action_RemoveFavorite" : "Action_AddFavorite"; }
                                 <button type="submit" class="fav" data-on="@cat.IsFavorite.ToString().ToLowerInvariant()"
-                                        data-i18n-title="@(cat.IsFavorite ? "Action_RemoveFavorite" : "Action_AddFavorite")"
-                                        title="@(cat.IsFavorite ? L["Action_RemoveFavorite"] : L["Action_AddFavorite"])">
-                                    @(cat.IsFavorite ? "★" : "☆")
+                                        data-i18n-title="@favKey"
+                                        title="@L[favKey]">
+                                    @* 星は装飾。読み上げ用の名前は visually-hidden のラベルが担う *@
+                                    <span aria-hidden="true">@(cat.IsFavorite ? "★" : "☆")</span>
+                                    <span class="visually-hidden" data-i18n="@favKey">@L[favKey]</span>
                                 </button>
                             </form>
                         </td>

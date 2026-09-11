@@ -2,20 +2,29 @@
 @{
     var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     var active = ViewData["Active"] as string;
-    string Cur(string k) => active == k ? "page" : null;
+    string? Cur(string k) => active == k ? "page" : null;
 }
 <!DOCTYPE html>
 <html lang="@lang" data-lang="@lang">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] — @L["App_Name"]</title>
+    @* タイトルもリソースキーを持たせ、即時切り替えで更新できるようにする *@
+    <title data-i18n-title-key="@(ViewData["TitleKey"] as string)"
+           data-i18n-title-suffix="App_Name">@ViewData["Title"] — @L["App_Name"]</title>
 
     @* 表示用の書体。取得できない場合は OS の明朝／ゴシックにフォールバックする *@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet"
+    @* ❗ webfont は描画をブロックしない形で読み込む。
+       ネットワークが遅い・遮断されている環境でも、フォールバックの書体で
+       すぐに表示されるようにするため（media トリックで非同期化）。 *@
+    <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
           href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Shippori+Mincho:wght@400;600&display=swap" />
+    <noscript>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Shippori+Mincho:wght@400;600&display=swap" />
+    </noscript>
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -42,10 +51,11 @@
     </header>
 
     <main>
-        @if (TempData["Flash"] is string flash && !string.IsNullOrEmpty(flash))
+        @if (TempData["FlashKey"] is string flashKey && !string.IsNullOrEmpty(flashKey))
         {
+            @* キーを保持するので、言語を切り替えてもメッセージが追従する *@
             <div class="shell" style="padding-top:2rem">
-                <div class="flash" role="status">@flash</div>
+                <div class="flash" role="status" data-i18n="@flashKey">@L[flashKey]</div>
             </div>
         }
         @RenderBody()

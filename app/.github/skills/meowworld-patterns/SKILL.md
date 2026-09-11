@@ -68,7 +68,7 @@ MeowWorld/
 
 | 症状 | 原因 | 対処 |
 |------|------|------|
-| `MissingManifestResourceException` | `SharedResource.cs` を `Resources/` 内に置いた | プロジェクト直下（`namespace MeowWorld`）に置く |
+| `MissingManifestResourceException` | マーカー型を `namespace MeowWorld.Resources;` と宣言した（`ResourcesPath` と二重になる） | `namespace MeowWorld;` で宣言する（本リポジトリではプロジェクト直下に配置） |
 | ラベルがキー名のまま表示される | そのキーが該当言語の resx に無い | 両方の resx に追加する |
 | トグルは効くが再読込で戻る | クッキーが更新されていない | `wwwroot/js/i18n.js` が毎回クッキーを書いているか確認 |
 | 英語表示なのに一部が日本語 | モデルバインダー既定メッセージ | `Program.cs` の `ModelBindingMessageProvider` を確認 |

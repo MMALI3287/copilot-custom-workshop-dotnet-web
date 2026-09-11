@@ -3,9 +3,11 @@ namespace MeowWorld;
 /// <summary>
 /// 共有リソースの型マーカー。実装は持たない。
 ///
-/// ❗ このクラスはプロジェクト直下（namespace MeowWorld）に置くこと。
-/// Resources フォルダー内（namespace MeowWorld.Resources）に置くと、
-/// ResourcesPath = "Resources" と二重になり
+/// ❗ 重要なのはファイルの置き場所ではなく、宣言する namespace である。
+/// C# は namespace をフォルダーから自動決定しないが、IDE のテンプレートは
+/// フォルダー名から補完するため、Resources/ に作ると
+/// `namespace MeowWorld.Resources;` になりやすい。
+/// その宣言のまま ResourcesPath = "Resources" を使うと二重パスになり、
 /// "MeowWorld.Resources.Resources.SharedResource.ja.resources" を探して
 /// MissingManifestResourceException になる。
 ///

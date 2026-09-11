@@ -83,7 +83,7 @@ dotnet test
 Expected:
 
 ```text
-Passed!  - Failed: 0, Passed: 20, Skipped: 0, Total: 20
+Passed!  - Failed: 0, Passed: 21, Skipped: 0, Total: 21
 ```
 
 ### 3. Start the app
@@ -96,7 +96,7 @@ dotnet run
 Expected:
 
 ```text
-Now listening on: http://localhost:5244
+Now listening on: http://localhost:5228
 Application started. Press Ctrl+C to shut down.
 ```
 
@@ -221,8 +221,21 @@ exists in one language but not the other, which is the easiest mistake to make h
 
 | File | Covers |
 |------|--------|
-| `Controllers/CatsControllerTests.cs` | CRUD, NotFound paths, ModelState failure, favourite toggle |
-| `LocalizationTests.cs` | Both resx load, keys match exactly, no empty values, key translations differ |
+| `MeowWorld.Tests/Controllers/CatsControllerTests.cs` | CRUD, NotFound paths, `[Required]` validation, ModelState failure, favourite toggle |
+| `MeowWorld.Tests/LocalizationTests.cs` | Both resx load, keys match exactly, no empty values, key translations differ |
+| `e2e/tests/*.spec.js` | Browser tests: the no-reload toggle, cookie persistence, accessible names, CRUD round trip, `CreatedAt` immutability, open-redirect rejection |
+
+Unit tests:
+
+```bash
+cd app && dotnet test          # 21 tests
+```
+
+Browser tests (see [e2e/README.md](e2e/README.md)):
+
+```bash
+cd app/e2e && npm install && npx playwright install chromium && npm test   # 15 tests
+```
 
 All tests use a uniquely-named InMemory database, so they are order-independent and safe to run
 in parallel.

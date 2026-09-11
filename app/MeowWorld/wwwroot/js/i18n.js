@@ -75,6 +75,17 @@
     applyAttr(dict, 'data-i18n-alt', function (el, v) { el.setAttribute('alt', v); });
     applyAttr(dict, 'data-i18n-title', function (el, v) { el.setAttribute('title', v); });
     applyAttr(dict, 'data-i18n-value', function (el, v) { el.setAttribute('value', v); });
+    applyAttr(dict, 'data-i18n-aria-label', function (el, v) { el.setAttribute('aria-label', v); });
+
+    // ページタイトルはサーバー描画時にしか評価されないため、ここで組み直す
+    var titleEl = document.querySelector('title[data-i18n-title-suffix]');
+    if (titleEl) {
+      var key = titleEl.getAttribute('data-i18n-title-key');
+      var suffixKey = titleEl.getAttribute('data-i18n-title-suffix');
+      var suffix = dict[suffixKey] || '';
+      var head = key && dict[key] ? dict[key] : (titleEl.textContent.split('—')[0] || '').trim();
+      document.title = suffix ? head + ' — ' + suffix : head;
+    }
 
     var root = document.documentElement;
     root.setAttribute('lang', culture);
@@ -88,6 +99,21 @@
       btn.classList.toggle('btn-outline-light', !isCurrent);
     });
 
+    // クライアント検証メッセージはサーバー描画時の言語で data-val-* に焼かれている。
+    // 言語を切り替えたら、次の送信でサーバーに判定させるため検証を作り直す。
+    // （jQuery unobtrusive validation がある場合のみ）
+    try {
+      if (window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive) {
+        window.jQuery('form').each(function () {
+          var $f = window.jQuery(this);
+          $f.removeData('validator').removeData('unobtrusiveValidation');
+          window.jQuery.validator.unobtrusive.parse($f);
+        });
+      }
+    } catch (e) {
+      console.warn('検証の再バインドに失敗しました。', e);
+    }
+
     document.dispatchEvent(new CustomEvent('languagechanged', { detail: { culture: culture } }));
   }
 
@@ -99,6 +125,16 @@
         // 取得に失敗したらサーバー側の経路にフォールバックする
         console.warn('即時切り替えに失敗したため、ページ遷移で切り替えます。', err);
         form.removeEventListener('submit', onSubmit, true);
+
+        // ❗ form.submit() は押されたボタンの name/value を送らないため、
+        //    culture を hidden input として明示的に足す。
+        //    これが無いとフォールバック経路で言語が切り替わらない。
+        var hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'culture';
+        hidden.value = culture;
+        form.appendChild(hidden);
+
         form.submit();
       })
       .finally(function () { inflight = null; });

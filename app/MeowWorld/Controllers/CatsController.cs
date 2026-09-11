@@ -59,13 +59,14 @@ public class CatsController(
             context.Add(cat);
             await context.SaveChangesAsync();
 
-            TempData["Flash"] = localizer["Msg_CreateSuccess"].Value;
+            TempData["FlashKey"] = "Msg_CreateSuccess";
             return RedirectToAction(nameof(Index));
         }
         catch (DbUpdateException ex)
         {
             logger.LogError(ex, "猫の登録に失敗しました。Name={Name}", cat.Name);
-            ModelState.AddModelError(string.Empty, localizer["Msg_NotFound"]);
+            // DbUpdateException は保存の失敗であり「見つからない」ではない
+            ModelState.AddModelError(string.Empty, localizer["Msg_SaveFailed"]);
             return View(cat);
         }
     }
@@ -78,14 +79,17 @@ public class CatsController(
             return NotFound();
         }
 
-        var cat = await context.Cats.FindAsync(id);
+        var cat = await context.Cats
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Id == id);
+
         return cat is null ? NotFound() : View(cat);
     }
 
     /// <summary>猫の情報を更新する</summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Breed,Description,IsFavorite,CreatedAt")] Cat cat)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Breed,Description,IsFavorite")] Cat cat)
     {
         if (id != cat.Id)
         {
@@ -97,22 +101,37 @@ public class CatsController(
             return View(cat);
         }
 
+        // ❗ 保存済みの行を読み出し、編集可能な項目だけを写す。
+        //    クライアントから送られた Cat をそのまま Update すると、
+        //    CreatedAt のようなサーバー所有の値まで上書きできてしまう。
+        var stored = await context.Cats.FirstOrDefaultAsync(c => c.Id == id);
+        if (stored is null)
+        {
+            return NotFound();
+        }
+
+        stored.Name = cat.Name;
+        stored.Age = cat.Age;
+        stored.Breed = cat.Breed;
+        stored.Description = cat.Description;
+        stored.IsFavorite = cat.IsFavorite;
+        // CreatedAt は意図的に写さない（サーバー所有）
+
         try
         {
-            context.Update(cat);
             await context.SaveChangesAsync();
 
-            TempData["Flash"] = localizer["Msg_UpdateSuccess"].Value;
+            TempData["FlashKey"] = "Msg_UpdateSuccess";
             return RedirectToAction(nameof(Index));
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            if (!await CatExistsAsync(cat.Id))
+            if (!await CatExistsAsync(id))
             {
                 return NotFound();
             }
 
-            logger.LogError(ex, "猫の更新で同時実行の競合が発生しました。Id={Id}", cat.Id);
+            logger.LogError(ex, "猫の更新で同時実行の競合が発生しました。Id={Id}", id);
             throw;
         }
     }
@@ -146,7 +165,7 @@ public class CatsController(
         context.Cats.Remove(cat);
         await context.SaveChangesAsync();
 
-        TempData["Flash"] = localizer["Msg_DeleteSuccess"].Value;
+        TempData["FlashKey"] = "Msg_DeleteSuccess";
         return RedirectToAction(nameof(Index));
     }
 

@@ -27,8 +27,10 @@ public class CultureController(IStringLocalizerFactory localizerFactory) : Contr
             AppendCultureCookie(culture);
         }
 
-        // ❗ Redirect ではなく LocalRedirect（オープンリダイレクト対策）
-        return LocalRedirect(string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl);
+        // returnUrl はクライアントが変更できる未信頼値。
+        // LocalRedirect は外部 URL を渡すと例外を投げて 500 になるため、
+        // 事前に検証し、ローカルでなければトップへ戻す。
+        return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl! : "/");
     }
 
     /// <summary>

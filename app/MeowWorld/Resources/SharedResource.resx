@@ -340,4 +340,22 @@
   <data name="Since" xml:space="preserve">
     <value>SINCE 2026</value>
   </data>
+  <data name="Msg_SaveFailed" xml:space="preserve">
+    <value>保存に失敗しました。時間をおいて再度お試しください。</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="Error_Heading" xml:space="preserve">
+    <value>問題が発生しました。</value>
+  </data>
+  <data name="Error_Lead" xml:space="preserve">
+    <value>リクエストの処理中にエラーが発生しました。</value>
+  </data>
+  <data name="Error_RequestId" xml:space="preserve">
+    <value>リクエスト ID</value>
+  </data>
+  <data name="A11y_Close" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
 </root>

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using MeowWorld.Controllers;
 using MeowWorld.Data;
 using MeowWorld.Models;
@@ -136,10 +137,28 @@ public class CatsControllerTests
     }
 
     [Fact]
-    public async Task Nameが空文字の場合にModelStateエラーになること()
+    public void Nameが空の場合にRequired検証が失敗すること()
     {
         // Arrange
-        using var context = TestHelpers.CreateContext(nameof(Nameが空文字の場合にModelStateエラーになること));
+        // ❗ ModelState を手で汚すのではなく、実際の属性を評価する。
+        //    こうしないと [Required] を外してもテストが通ってしまう。
+        var cat = new Cat { Name = string.Empty, Age = 1, Breed = "雑種" };
+        var context = new ValidationContext(cat);
+        var results = new List<ValidationResult>();
+
+        // Act
+        var isValid = Validator.TryValidateObject(cat, context, results, validateAllProperties: true);
+
+        // Assert
+        Assert.False(isValid);
+        Assert.Contains(results, r => r.MemberNames.Contains(nameof(Cat.Name)));
+    }
+
+    [Fact]
+    public async Task ModelStateが無効なときは保存されないこと()
+    {
+        // Arrange
+        using var context = TestHelpers.CreateContext(nameof(ModelStateが無効なときは保存されないこと));
         var controller = CreateController(context);
         controller.ModelState.AddModelError(nameof(Cat.Name), "Validation_Name_Required");
         var cat = TestHelpers.NewCat(string.Empty);
