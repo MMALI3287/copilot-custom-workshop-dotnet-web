@@ -1,0 +1,64 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+}
+
+/* サイドバー */
+.sidebar {
+  min-height: calc(100vh - 60px);
+  border-right: 1px solid rgba(0, 0, 0, .1);
+}
+
+.sidebar .nav-link {
+  color: #333;
+  border-radius: 0;
+  padding: .6rem 1rem;
+}
+
+.sidebar .nav-link:hover:not(.disabled) {
+  background-color: rgba(13, 110, 253, .08);
+}
+
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+  font-weight: 600;
+}
+
+.sidebar .nav-link.disabled {
+  color: #6c757d;
+  cursor: default;
+}
+
+/* お気に入りの星 */
+.favorite-toggle {
+  background: none;
+  border: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.favorite-on  { color: #f0ad4e; }
+.favorite-off { color: #ccc; }
+
+/* 言語切り替え中のちらつきを抑える */
+[data-i18n] {
+  transition: opacity .12s ease-in-out;
+}
+
+.btn-group[role="group"] button {
+  min-width: 4.5rem;
+}

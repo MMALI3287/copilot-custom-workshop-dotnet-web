@@ -1,0 +1,68 @@
+@using System.Globalization
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+<!DOCTYPE html>
+<html lang="@lang" data-lang="@lang">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @L["App_Name"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
+        <div class="container-fluid d-flex justify-content-between align-items-center px-3 py-2">
+            <a class="navbar-brand d-flex align-items-center gap-2 m-0" asp-controller="Home" asp-action="Index">
+                <img src="~/images/logo.png" alt="@L["Logo_Alt"]" height="36"
+                     class="bg-white rounded p-1" data-i18n-alt="Logo_Alt" />
+                <span data-i18n="App_Title">@L["App_Title"]</span>
+            </a>
+            <partial name="_LanguageSwitcher" />
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar p-0">
+                <ul class="nav flex-column pt-3">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewData["Active"] as string == "Dashboard" ? "active" : "")"
+                           asp-controller="Home" asp-action="Index" data-i18n="Nav_Dashboard">@L["Nav_Dashboard"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewData["Active"] as string == "Cats" ? "active" : "")"
+                           asp-controller="Cats" asp-action="Index" data-i18n="Nav_CatList">@L["Nav_CatList"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewData["Active"] as string == "Create" ? "active" : "")"
+                           asp-controller="Cats" asp-action="Create" data-i18n="Nav_RegisterCat">@L["Nav_RegisterCat"]</a>
+                    </li>
+                    <li class="nav-item"><span class="nav-link disabled" data-i18n="Nav_Categories">@L["Nav_Categories"]</span></li>
+                    <li class="nav-item"><span class="nav-link disabled" data-i18n="Nav_HealthRecords">@L["Nav_HealthRecords"]</span></li>
+                    <li class="nav-item"><span class="nav-link disabled" data-i18n="Nav_Adoption">@L["Nav_Adoption"]</span></li>
+                    <li class="nav-item"><span class="nav-link disabled" data-i18n="Nav_Schedule">@L["Nav_Schedule"]</span></li>
+                    <li class="nav-item"><span class="nav-link disabled" data-i18n="Nav_Reports">@L["Nav_Reports"]</span></li>
+                </ul>
+            </nav>
+
+            <main class="col-md-9 col-lg-10 ms-sm-auto px-md-4 py-4">
+                @if (TempData["Flash"] is string flash && !string.IsNullOrEmpty(flash))
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @flash
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/i18n.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

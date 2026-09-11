@@ -1,0 +1,14 @@
+# ビルド成果物
+bin/
+obj/
+*.user
+
+# SQLite データベース（起動時に自動生成される）
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.vs/
+.idea/
+*.swp
