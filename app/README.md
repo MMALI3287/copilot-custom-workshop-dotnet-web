@@ -111,7 +111,7 @@ Your port will differ. Open whichever URL it prints.
 
 | Action | What to expect |
 |--------|----------------|
-| Open `/` | The dashboard, in Japanese |
+| Open `/` | The editorial landing page, in Japanese |
 | Click **猫一覧** | 5 seeded cats in a table |
 | Click **English** in the header | Everything switches to English **instantly, with no page reload** |
 | Look at the cat names | Still Japanese. Data is not translated, only the interface |

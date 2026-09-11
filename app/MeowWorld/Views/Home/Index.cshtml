@@ -120,7 +120,7 @@
                         <span class="card__n">@((i + 1).ToString("00"))</span>
                         <span>
                             <h3 class="card__name">@cat.Name</h3>
-                            <p class="card__meta">@cat.Breed / @cat.Age @L["Years_Suffix"]</p>
+                            <p class="card__meta">@cat.Breed / @cat.Age <span data-i18n="Years_Suffix">@L["Years_Suffix"]</span></p>
                         </span>
                     </a>
                 }
