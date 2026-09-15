@@ -1,0 +1,84 @@
+@using System.Globalization
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var active = ViewData["Active"] as string;
+    string? Cur(string k) => active == k ? "page" : null;
+}
+<!DOCTYPE html>
+<html lang="@lang" data-lang="@lang">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @* タイトルもリソースキーを持たせ、即時切り替えで更新できるようにする *@
+    <title data-i18n-title-key="@(ViewData["TitleKey"] as string)"
+           data-i18n-title-suffix="App_Name">@ViewData["Title"] — @L["App_Name"]</title>
+
+    @* 表示用の書体。取得できない場合は OS の明朝／ゴシックにフォールバックする *@
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    @* ❗ webfont は描画をブロックしない形で読み込む。
+       ネットワークが遅い・遮断されている環境でも、フォールバックの書体で
+       すぐに表示されるようにするため（media トリックで非同期化）。 *@
+    <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Shippori+Mincho:wght@400;600&display=swap" />
+    <noscript>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Shippori+Mincho:wght@400;600&display=swap" />
+    </noscript>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="masthead" id="masthead">
+        <div class="shell masthead__inner">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand__mark">
+                    <img src="~/images/logo.png" alt="@L["Logo_Alt"]" data-i18n-alt="Logo_Alt" />
+                </span>
+                <strong>Meow<span>World</span></strong>
+            </a>
+
+            <nav class="nav">
+                <a class="nav__link" asp-controller="Cats" asp-action="Index"
+                   aria-current="@Cur("Cats")" data-i18n="Nav_Collection">@L["Nav_Collection"]</a>
+                <a class="nav__link" asp-controller="Home" asp-action="Privacy"
+                   aria-current="@Cur("Story")" data-i18n="Nav_OurStory">@L["Nav_OurStory"]</a>
+                <a class="nav__link nav__link--keep" asp-controller="Cats" asp-action="Create"
+                   aria-current="@Cur("Create")" data-i18n="Nav_RegisterCat">@L["Nav_RegisterCat"]</a>
+                <partial name="_LanguageSwitcher" />
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        @if (TempData["FlashKey"] is string flashKey && !string.IsNullOrEmpty(flashKey))
+        {
+            @* キーを保持するので、言語を切り替えてもメッセージが追従する *@
+            <div class="shell" style="padding-top:2rem">
+                <div class="flash" role="status" data-i18n="@flashKey">@L[flashKey]</div>
+            </div>
+        }
+        @RenderBody()
+    </main>
+
+    <div class="shell">
+        <footer class="footer">
+            <span data-i18n="Home_Footer_Left">@L["Home_Footer_Left"]</span>
+            <span data-i18n="Home_Footer_Right">@L["Home_Footer_Right"]</span>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/i18n.js" asp-append-version="true"></script>
+    <script>
+        // スクロールでヘッダーに境界線を出す
+        (function () {
+            var h = document.getElementById('masthead');
+            var set = function () { h.dataset.scrolled = window.scrollY > 8 ? 'true' : 'false'; };
+            set();
+            window.addEventListener('scroll', set, { passive: true });
+        })();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

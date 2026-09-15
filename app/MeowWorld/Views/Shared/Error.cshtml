@@ -1,0 +1,24 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = L["Error_Title"].Value;
+    ViewData["TitleKey"] = "Error_Title";
+}
+
+<div class="shell section--tight" style="max-width:44rem">
+    <p class="eyebrow" data-i18n="Error_Title">@L["Error_Title"]</p>
+    <h1 class="display" data-i18n="Error_Heading">@L["Error_Heading"]</h1>
+    <p class="lead" data-i18n="Error_Lead">@L["Error_Lead"]</p>
+
+    @if (Model?.ShowRequestId ?? false)
+    {
+        <p class="micro" style="margin-top:2rem">
+            <strong data-i18n="Error_RequestId">@L["Error_RequestId"]</strong>
+            <code class="ledger__id">@Model.RequestId</code>
+        </p>
+    }
+
+    <div style="margin-top:2.5rem">
+        <a class="btn btn--quiet" asp-controller="Home" asp-action="Index"
+           data-i18n="Nav_Dashboard">@L["Nav_Dashboard"]</a>
+    </div>
+</div>

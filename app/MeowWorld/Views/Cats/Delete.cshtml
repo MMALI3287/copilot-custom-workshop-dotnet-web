@@ -1,0 +1,36 @@
+@model Cat
+@{
+    ViewData["Title"] = L["Page_CatDelete_Title"].Value;
+    ViewData["Active"] = "Cats";
+}
+
+<div class="shell section--tight" style="max-width:48rem">
+    <p class="eyebrow" data-i18n="Page_CatDelete_Title">@L["Page_CatDelete_Title"]</p>
+    <h1 class="display" style="margin-bottom:1.5rem">@Model.Name</h1>
+
+    <p class="lead" style="max-width:44ch">
+        <span data-i18n="Msg_DeleteConfirm">@L["Msg_DeleteConfirm"]</span>
+        <span data-i18n="Msg_DeleteIrreversible" style="color:var(--clay)">@L["Msg_DeleteIrreversible"]</span>
+    </p>
+
+    <div class="record" style="margin-top:2.5rem">
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Breed">@L["Col_Breed"]</span>
+            <span class="record__v">@Model.Breed</span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Age">@L["Col_Age"]</span>
+            <span class="record__v">@Model.Age</span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Description">@L["Col_Description"]</span>
+            <span class="record__v">@Model.Description</span>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post" class="formactions">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn--danger" data-i18n="Action_ConfirmDelete">@L["Action_ConfirmDelete"]</button>
+        <a class="btn btn--quiet" asp-action="Index" data-i18n="Action_Cancel">@L["Action_Cancel"]</a>
+    </form>
+</div>

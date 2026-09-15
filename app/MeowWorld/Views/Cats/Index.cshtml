@@ -1,0 +1,86 @@
+@model IEnumerable<Cat>
+@{
+    ViewData["Title"] = L["Page_CatList_Title"].Value;
+    ViewData["Active"] = "Cats";
+}
+
+<div class="shell section--tight">
+
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; flex-wrap:wrap;">
+        <div>
+            <p class="eyebrow" data-i18n="Cats_Eyebrow">@L["Cats_Eyebrow"]</p>
+            <h1 class="display">
+                <span data-i18n="Cats_Heading_1">@L["Cats_Heading_1"]</span><br />
+                <em data-i18n="Cats_Heading_Accent">@L["Cats_Heading_Accent"]</em>
+            </h1>
+        </div>
+
+        <a class="btn" asp-action="Create">
+            <span data-i18n="Action_CreateCat">@L["Action_CreateCat"]</span>
+            <span class="btn__arrow" aria-hidden="true">→</span>
+        </a>
+    </div>
+
+    <p class="micro" style="margin-top:2.5rem">
+        <span class="ledger__id">@Model.Count().ToString("00")</span>
+        <span data-i18n="Cats_Count_Suffix">@L["Cats_Count_Suffix"]</span>
+    </p>
+
+    @if (!Model.Any())
+    {
+        <div class="empty" style="margin-top:1.5rem" data-i18n="Msg_NoCats">@L["Msg_NoCats"]</div>
+    }
+    else
+    {
+        <div class="tablewrap" style="margin-top:1rem">
+            <table class="ledger">
+                <thead>
+                    <tr>
+                        <th data-i18n="Col_Id">@L["Col_Id"]</th>
+                        <th><span class="visually-hidden" data-i18n="Col_IsFavorite">@L["Col_IsFavorite"]</span></th>
+                        <th data-i18n="Col_Name">@L["Col_Name"]</th>
+                        <th data-i18n="Col_Age">@L["Col_Age"]</th>
+                        <th data-i18n="Col_Breed">@L["Col_Breed"]</th>
+                        <th data-i18n="Col_Description">@L["Col_Description"]</th>
+                        <th class="ledger__actions" data-i18n="Col_Actions">@L["Col_Actions"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var cat in Model)
+                {
+                    <tr>
+                        <td class="ledger__id">@cat.Id.ToString("00")</td>
+                        <td>
+                            @* 操作なので翻訳対象。データではない *@
+                            <form asp-action="ToggleFavorite" asp-route-id="@cat.Id" method="post" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                @{ var favKey = cat.IsFavorite ? "Action_RemoveFavorite" : "Action_AddFavorite"; }
+                                <button type="submit" class="fav" data-on="@cat.IsFavorite.ToString().ToLowerInvariant()"
+                                        data-i18n-title="@favKey"
+                                        title="@L[favKey]">
+                                    @* 星は装飾。読み上げ用の名前は visually-hidden のラベルが担う *@
+                                    <span aria-hidden="true">@(cat.IsFavorite ? "★" : "☆")</span>
+                                    <span class="visually-hidden" data-i18n="@favKey">@L[favKey]</span>
+                                </button>
+                            </form>
+                        </td>
+                        @* 以下は利用者データのため翻訳しない *@
+                        <td class="ledger__name">@cat.Name</td>
+                        <td>@cat.Age</td>
+                        <td><span class="tag">@cat.Breed</span></td>
+                        <td class="micro" style="max-width:22rem">@cat.Description</td>
+                        <td class="ledger__actions">
+                            <a class="btn btn--quiet btn--sm" asp-action="Details" asp-route-id="@cat.Id"
+                               data-i18n="Action_Details">@L["Action_Details"]</a>
+                            <a class="btn btn--quiet btn--sm" asp-action="Edit" asp-route-id="@cat.Id"
+                               data-i18n="Action_Edit">@L["Action_Edit"]</a>
+                            <a class="btn btn--quiet btn--sm" asp-action="Delete" asp-route-id="@cat.Id"
+                               data-i18n="Action_Delete">@L["Action_Delete"]</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

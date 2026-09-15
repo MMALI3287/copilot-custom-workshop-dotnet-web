@@ -1,0 +1,45 @@
+@model Cat
+@{
+    ViewData["Title"] = L["Page_CatDetails_Title"].Value;
+    ViewData["Active"] = "Cats";
+}
+
+<div class="shell section--tight" style="max-width:56rem">
+    <p class="eyebrow" data-i18n="Detail_Eyebrow">@L["Detail_Eyebrow"]</p>
+    <h1 class="display" style="margin-bottom:2.5rem">@Model.Name</h1>
+
+    <div class="record">
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Id">@L["Col_Id"]</span>
+            <span class="record__v ledger__id">@Model.Id.ToString("00")</span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Breed">@L["Col_Breed"]</span>
+            <span class="record__v">@Model.Breed</span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Age">@L["Col_Age"]</span>
+            <span class="record__v">@Model.Age <span class="micro" data-i18n="Years_Suffix">@L["Years_Suffix"]</span></span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_Description">@L["Col_Description"]</span>
+            <span class="record__v">@Model.Description</span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_IsFavorite">@L["Col_IsFavorite"]</span>
+            <span class="record__v" data-i18n="@(Model.IsFavorite ? "Msg_Yes" : "Msg_No")">
+                @(Model.IsFavorite ? L["Msg_Yes"] : L["Msg_No"])
+            </span>
+        </div>
+        <div class="record__row">
+            <span class="record__k" data-i18n="Col_CreatedAt">@L["Col_CreatedAt"]</span>
+            @* 日付書式は SupportedCultures に従って切り替わる *@
+            <span class="record__v">@Model.CreatedAt.ToString("d")</span>
+        </div>
+    </div>
+
+    <div class="formactions">
+        <a class="btn" asp-action="Edit" asp-route-id="@Model.Id" data-i18n="Action_Edit">@L["Action_Edit"]</a>
+        <a class="btn btn--quiet" asp-action="Index" data-i18n="Action_BackToList">@L["Action_BackToList"]</a>
+    </div>
+</div>

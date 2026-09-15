@@ -32,7 +32,12 @@ In this workshop you will learn the latest GitHub Copilot capabilities hands-on,
 | [Bilingual UI (JA/EN toggle)](docs/Localization/README.md) | How to add an instant Japanese/English language toggle to MeowWorld |
 | [String Catalog](docs/Localization/string-catalog.md) | Every UI string in the workshop with its resource key and JA/EN values |
 | [Maintainer Copilot Instructions (EN)](docs/Reference/maintainer-copilot-instructions_EN.md) | English translation of `.github/copilot-instructions.md` |
-| [Reference Implementation](reference-implementation/README.md) | A complete, working build of MeowWorld including the JA/EN toggle |
+| [Reference Implementation](app/README.md) | A complete, working build of MeowWorld including the JA/EN toggle |
+
+> **⚠️ If you are running the workshop as written:** `app/` in this fork already contains the
+> finished MeowWorld application. Step 3 assumes an empty `app/` that you create with `mkdir app`,
+> so move or delete the folder before starting. If you only want to read the finished code, leave
+> it as it is.
 
 ---
 

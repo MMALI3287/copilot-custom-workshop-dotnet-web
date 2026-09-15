@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" /></xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" /></xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a2c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a2c561934e089</value></resheader>
+  <data name="App_Name" xml:space="preserve">
+    <value>MeowWorld</value>
+  </data>
+  <data name="App_Tagline" xml:space="preserve">
+    <value>猫管理システム</value>
+  </data>
+  <data name="App_Title" xml:space="preserve">
+    <value>MeowWorld 猫管理システム</value>
+  </data>
+  <data name="Logo_Alt" xml:space="preserve">
+    <value>MeowWorld 猫管理システムのロゴ</value>
+  </data>
+  <data name="Nav_Dashboard" xml:space="preserve">
+    <value>ダッシュボード</value>
+  </data>
+  <data name="Nav_CatList" xml:space="preserve">
+    <value>猫一覧</value>
+  </data>
+  <data name="Nav_RegisterCat" xml:space="preserve">
+    <value>新しい猫を登録</value>
+  </data>
+  <data name="Nav_Categories" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
+  <data name="Nav_HealthRecords" xml:space="preserve">
+    <value>健康記録</value>
+  </data>
+  <data name="Nav_Adoption" xml:space="preserve">
+    <value>里親募集</value>
+  </data>
+  <data name="Nav_Schedule" xml:space="preserve">
+    <value>スケジュール</value>
+  </data>
+  <data name="Nav_Reports" xml:space="preserve">
+    <value>レポート</value>
+  </data>
+  <data name="Nav_UserManagement" xml:space="preserve">
+    <value>ユーザー管理</value>
+  </data>
+  <data name="Nav_Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Nav_Privacy" xml:space="preserve">
+    <value>プライバシー</value>
+  </data>
+  <data name="Page_Home_Title" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
+  <data name="Page_Home_Lead" xml:space="preserve">
+    <value>世界中の猫好きが集まるコミュニティへようこそ。</value>
+  </data>
+  <data name="Page_CatList_Title" xml:space="preserve">
+    <value>猫一覧</value>
+  </data>
+  <data name="Page_CatDetails_Title" xml:space="preserve">
+    <value>猫の詳細</value>
+  </data>
+  <data name="Page_CatCreate_Title" xml:space="preserve">
+    <value>新しい猫を登録</value>
+  </data>
+  <data name="Page_CatEdit_Title" xml:space="preserve">
+    <value>猫の情報を編集</value>
+  </data>
+  <data name="Page_CatDelete_Title" xml:space="preserve">
+    <value>猫の削除</value>
+  </data>
+  <data name="Page_Privacy_Title" xml:space="preserve">
+    <value>プライバシーポリシー</value>
+  </data>
+  <data name="Col_Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Col_Name" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="Col_Age" xml:space="preserve">
+    <value>年齢</value>
+  </data>
+  <data name="Col_Breed" xml:space="preserve">
+    <value>品種</value>
+  </data>
+  <data name="Col_Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="Col_CreatedAt" xml:space="preserve">
+    <value>登録日時</value>
+  </data>
+  <data name="Col_Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Col_IsFavorite" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="Action_Details" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Action_Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="Action_Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Action_CreateCat" xml:space="preserve">
+    <value>新しい猫を登録</value>
+  </data>
+  <data name="Action_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Action_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Action_BackToList" xml:space="preserve">
+    <value>一覧に戻る</value>
+  </data>
+  <data name="Action_ConfirmDelete" xml:space="preserve">
+    <value>削除する</value>
+  </data>
+  <data name="Action_AddFavorite" xml:space="preserve">
+    <value>お気に入りに追加</value>
+  </data>
+  <data name="Action_RemoveFavorite" xml:space="preserve">
+    <value>お気に入りから削除</value>
+  </data>
+  <data name="Msg_NoCats" xml:space="preserve">
+    <value>登録されている猫はいません。</value>
+  </data>
+  <data name="Msg_DeleteConfirm" xml:space="preserve">
+    <value>この猫を削除してもよろしいですか？</value>
+  </data>
+  <data name="Msg_DeleteIrreversible" xml:space="preserve">
+    <value>この操作は取り消せません。</value>
+  </data>
+  <data name="Msg_CreateSuccess" xml:space="preserve">
+    <value>猫を登録しました。</value>
+  </data>
+  <data name="Msg_UpdateSuccess" xml:space="preserve">
+    <value>猫の情報を更新しました。</value>
+  </data>
+  <data name="Msg_DeleteSuccess" xml:space="preserve">
+    <value>猫を削除しました。</value>
+  </data>
+  <data name="Msg_NotFound" xml:space="preserve">
+    <value>指定された猫が見つかりません。</value>
+  </data>
+  <data name="Msg_Yes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="Msg_No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="Validation_Name_Required" xml:space="preserve">
+    <value>名前は必須です。</value>
+  </data>
+  <data name="Validation_Name_MaxLength" xml:space="preserve">
+    <value>名前は50文字以内で入力してください。</value>
+  </data>
+  <data name="Validation_Age_Range" xml:space="preserve">
+    <value>年齢は0以上30以下で入力してください。</value>
+  </data>
+  <data name="Validation_Breed_Required" xml:space="preserve">
+    <value>品種は必須です。</value>
+  </data>
+  <data name="Validation_Breed_MaxLength" xml:space="preserve">
+    <value>品種は50文字以内で入力してください。</value>
+  </data>
+  <data name="Validation_Description_MaxLength" xml:space="preserve">
+    <value>説明は500文字以内で入力してください。</value>
+  </data>
+  <data name="Lang_SwitcherLabel" xml:space="preserve">
+    <value>表示言語</value>
+  </data>
+  <data name="Validation_ValueIsInvalid" xml:space="preserve">
+    <value>入力された値「{0}」は無効です。</value>
+  </data>
+  <data name="Validation_ValueMustNotBeNull" xml:space="preserve">
+    <value>値「{0}」は必須です。</value>
+  </data>
+  <data name="Validation_MissingRequiredValue" xml:space="preserve">
+    <value>{0} は必須です。</value>
+  </data>
+  <data name="Validation_AttemptedValueIsInvalid" xml:space="preserve">
+    <value>「{0}」は {1} の値として無効です。</value>
+  </data>
+  <data name="Validation_ValueMustBeANumber" xml:space="preserve">
+    <value>{0} には数値を入力してください。</value>
+  </data>
+  <data name="Home_Eyebrow" xml:space="preserve">
+    <value>猫と暮らす人のためのスタジオ</value>
+  </data>
+  <data name="Home_Hero_1" xml:space="preserve">
+    <value>すべての猫に</value>
+  </data>
+  <data name="Home_Hero_2" xml:space="preserve">
+    <value>物語が</value>
+  </data>
+  <data name="Home_Hero_Accent" xml:space="preserve">
+    <value>あります。</value>
+  </data>
+  <data name="Home_Hero_Lead" xml:space="preserve">
+    <value>お気に入りの猫たちの、小さくて大切な記録を静かに残す場所。</value>
+  </data>
+  <data name="Home_CTA_Primary" xml:space="preserve">
+    <value>コレクションを見る</value>
+  </data>
+  <data name="Home_CTA_Secondary" xml:space="preserve">
+    <value>このサイトについて</value>
+  </data>
+  <data name="Home_Note" xml:space="preserve">
+    <value>細部に気づく人のために。</value>
+  </data>
+  <data name="Home_Stat1_N" xml:space="preserve">
+    <value>01</value>
+  </data>
+  <data name="Home_Stat1_T" xml:space="preserve">
+    <value>やわらかな</value>
+  </data>
+  <data name="Home_Stat1_B" xml:space="preserve">
+    <value>記録のかたち。</value>
+  </data>
+  <data name="Home_Stat2_T" xml:space="preserve">
+    <value>猫たちの物語が</value>
+  </data>
+  <data name="Home_Stat2_B" xml:space="preserve">
+    <value>待っています</value>
+  </data>
+  <data name="Home_Stat3_N" xml:space="preserve">
+    <value>∞</value>
+  </data>
+  <data name="Home_Stat3_T" xml:space="preserve">
+    <value>新しい章のための</value>
+  </data>
+  <data name="Home_Stat3_B" xml:space="preserve">
+    <value>余白</value>
+  </data>
+  <data name="Home_Stat4_T" xml:space="preserve">
+    <value>とても大切な</value>
+  </data>
+  <data name="Home_Stat4_B" xml:space="preserve">
+    <value>細部のために。</value>
+  </data>
+  <data name="Home_Preview_Eyebrow" xml:space="preserve">
+    <value>すこしだけ紹介</value>
+  </data>
+  <data name="Home_Preview_1" xml:space="preserve">
+    <value>この街の</value>
+  </data>
+  <data name="Home_Preview_Accent" xml:space="preserve">
+    <value>仲間たち。</value>
+  </data>
+  <data name="Home_Footer_Left" xml:space="preserve">
+    <value>MEOWWORLD / 猫管理スタジオ</value>
+  </data>
+  <data name="Home_Footer_Right" xml:space="preserve">
+    <value>2026年、ていねいに制作</value>
+  </data>
+  <data name="Cats_Eyebrow" xml:space="preserve">
+    <value>コレクション</value>
+  </data>
+  <data name="Cats_Heading_1" xml:space="preserve">
+    <value>登録されている</value>
+  </data>
+  <data name="Cats_Heading_Accent" xml:space="preserve">
+    <value>猫たち。</value>
+  </data>
+  <data name="Cats_Count_Suffix" xml:space="preserve">
+    <value>匹</value>
+  </data>
+  <data name="Cats_ViewGrid" xml:space="preserve">
+    <value>カード</value>
+  </data>
+  <data name="Cats_ViewTable" xml:space="preserve">
+    <value>一覧表</value>
+  </data>
+  <data name="Nav_Collection" xml:space="preserve">
+    <value>コレクション</value>
+  </data>
+  <data name="Nav_OurStory" xml:space="preserve">
+    <value>このサイト</value>
+  </data>
+  <data name="Nav_EnterStudio" xml:space="preserve">
+    <value>スタジオへ</value>
+  </data>
+  <data name="Years_Suffix" xml:space="preserve">
+    <value>歳</value>
+  </data>
+  <data name="Form_Eyebrow" xml:space="preserve">
+    <value>スタジオ</value>
+  </data>
+  <data name="Detail_Eyebrow" xml:space="preserve">
+    <value>猫の記録</value>
+  </data>
+  <data name="Since" xml:space="preserve">
+    <value>SINCE 2026</value>
+  </data>
+  <data name="Msg_SaveFailed" xml:space="preserve">
+    <value>保存に失敗しました。時間をおいて再度お試しください。</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="Error_Heading" xml:space="preserve">
+    <value>問題が発生しました。</value>
+  </data>
+  <data name="Error_Lead" xml:space="preserve">
+    <value>リクエストの処理中にエラーが発生しました。</value>
+  </data>
+  <data name="Error_RequestId" xml:space="preserve">
+    <value>リクエスト ID</value>
+  </data>
+  <data name="A11y_Close" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+</root>

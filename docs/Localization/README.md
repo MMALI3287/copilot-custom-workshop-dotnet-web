@@ -205,9 +205,9 @@ public class SharedResource
 
 This empty class exists only as a type argument. `IStringLocalizer<SharedResource>` uses it to locate `SharedResource.<culture>.resx`.
 
-> **❗ Put this class at the project root, not in `Resources/`.** This is the single easiest way to lose an hour here, and the error message does not point at the cause.
+> **❗ Declare this class as `namespace MeowWorld;`, not `MeowWorld.Resources`.** This is the single easiest way to lose an hour here, and the error message does not point at the cause.
 >
-> The lookup name is built from **the marker type's namespace plus `ResourcesPath`**. Put the class in `Resources/` and its namespace becomes `MeowWorld.Resources`, which combines with `ResourcesPath = "Resources"` to look for:
+> The lookup name is built from **the marker type's declared namespace plus `ResourcesPath`** — the folder itself is irrelevant to C#, which takes the namespace from the `namespace` statement. The trap is that IDE templates fill that statement in from the folder name, so a class created in `Resources/` typically arrives declaring `namespace MeowWorld.Resources;`. Combined with `ResourcesPath = "Resources"`, the lookup becomes:
 >
 > ```text
 > MeowWorld.Resources.Resources.SharedResource.ja.resources
@@ -250,7 +250,7 @@ In `Views/_ViewImports.cshtml`:
 
 ```cshtml
 @using Microsoft.AspNetCore.Mvc.Localization
-@using MeowWorld.Resources
+@using MeowWorld
 @inject IStringLocalizer<SharedResource> L
 ```
 

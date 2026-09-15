@@ -1,0 +1,16 @@
+@using System.Globalization
+@{
+    var current = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+}
+@* JS が有効なら i18n.js が submit を横取りして即時切り替えする。
+   無効な場合は通常の POST としてサーバー側で切り替わる。 *@
+<form asp-controller="Culture" asp-action="Set" method="post"
+      class="langtoggle js-lang-switcher" data-return-url="@returnUrl"
+      role="group" data-i18n-aria-label="Lang_SwitcherLabel" aria-label="@L["Lang_SwitcherLabel"]">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+    <button type="submit" name="culture" value="ja" lang="ja"
+            aria-pressed="@(current == "ja" ? "true" : "false")">日本語</button>
+    <button type="submit" name="culture" value="en" lang="en"
+            aria-pressed="@(current == "en" ? "true" : "false")">EN</button>
+</form>
